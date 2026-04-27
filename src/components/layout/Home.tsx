@@ -45,26 +45,27 @@ const Home: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center min-h-[200px]">
           {/* Text Content */}
           <div className="  rounded-none shadow-lg" style={{ clipPath: 'polygon(0 0, 100% 0, 88% 100%, 0 100%)' }}>
-            <h3 className="text-[#D4A017] text-2xl md:text-5xl font-bold mb-4">Welcome to</h3>
-            <h2 className="text-black text-2xl md:text-4xl font-bold mb-5">Moor Hall Restaurant</h2>
+            <h3 className="text-[#D4A017] text-2xl md:text-3xl font-bold mb-2">Welcome to</h3>
+            <h2 className="text-black text-2xl md:text-2xl font-bold mb-">Moor Hall Restaurant</h2>
             
-            <p className="text-black text-lg md:text-xl mb-1 leading-relaxed font-medium">
+            <p className="text-black text-sm md:text-sm mb-1 leading-relaxed font-medium">
               Since 2019, Moor Hall has been serving bold, honest food made from fresh local ingredients. 
-              Whether it's a quick lunch or a special occasion — we make every meal memorable.
+              Whether it's a quick lunch or a special occasion we make every meal memorable.
             </p>
 
             <div>
               <div className="flex items-center gap-4 mb-10">
                 <p className="text-black text-xl md:text-2xl font-bold">Customer reviews</p>
-                <div className="flex gap-1">
+               
                   {[...Array(5)].map((_, i) => (
                     <svg key={i} className="w-7 h-7 text-[#D4A017]" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   ))}
-                </div>
+                
               </div>
-              <p className="text-black text-md md:text-md mb-10 font-bold">1000+ Happy Customers</p>
+              <p className="text-white text-sm md:text-sm mb-10 font-bold">1000+ Happy Customers</p>
+             
             </div>
           </div>
 
