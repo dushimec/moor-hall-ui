@@ -42,7 +42,7 @@ const Home: React.FC = () => {
       <div className="absolute inset-4 pointer-events-none z-10  rounded-xl" />
 
       <div className="relative z-0 max-w-7xl mx-auto px-8 py-1">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center min-h-[200px]">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center min-h-50">
           {/* Text Content */}
           <div className="  rounded-none shadow-lg" style={{ clipPath: 'polygon(0 0, 100% 0, 88% 100%, 0 100%)' }}>
             <h3 className="text-[#D4A017] text-2xl md:text-3xl font-bold mb-2">Welcome to</h3>
@@ -87,7 +87,7 @@ const Home: React.FC = () => {
     </section>
     <div>
       {/* Menu & Services Section with chief.jpg background */}
-      <section className="relative py-16 overflow-hidden">
+      <section className="relative  overflow-hidden">
         {/* chief.jpg background cover */}
         <div 
           className="absolute inset-0"
@@ -99,17 +99,26 @@ const Home: React.FC = () => {
           }}
         />
         
-        <div className="relative z-10 max-w-7xl mx-auto px-8">
-          {/* Menu Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div className="relative mb-20 mt-5 z-40 max-w-7xl mx-auto px-8">
+          {/* Featured Meals */}
+          <div className="">
+            <div className="w-full bg-gray-800 py-4 mb-2" style={{ 
+              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+              backgroundBlendMode: 'soft-light'
+            }}>
+              <h2 className="text-2xl md:text-2xl font-bold text-white text-center">Featured Meals</h2>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
             {/* Pizza Card */}
-            <div className="bg-gray-200 border-4 border-[#D4A017] rounded-t-lg">
-              <div className="h-32 overflow-hidden">
+            <div className="bg-gray-200 border-4 border-[#D4A017] rounded-t-lg mt-2 md:mt-0 flex flex-col h-full">
+              <div className="h-40 overflow-hidden">
                 <img src={pizza} alt="Crispy crust Pizza" className="w-full h-full object-cover" />
               </div>
-              <div className="p-4">
-                <h3 className="text-xl font-bold mb-2">Crispy crust Pizza</h3>
-                <p className="text-sm mb-4">Caramelized onion and feta cheese on a delicious thin crust.</p>
+              <div className="p-4 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-xl font-bold mb-2">Crispy crust Pizza</h3>
+                  <p className="text-sm mb-4">Caramelized onion and feta cheese on a delicious thin crust.</p>
+                </div>
                 <div className="flex justify-between items-center">
                   <span className="text-xl font-bold">20k Rwf</span>
                   <button className="bg-red-600 text-white px-6 py-2 rounded-md font-bold">Order Now</button>
@@ -118,28 +127,32 @@ const Home: React.FC = () => {
             </div>
 
             {/* Burger Card */}
-            <div className="bg-gray-200 border-4 border-blue-500 rounded-t-lg">
-              <div className="h-32 overflow-hidden">
+              <div className="bg-gray-200 border-4 border-[#D4A017] rounded-t-lg  md:mt-10 flex flex-col h-full">
+              <div className="h-40 overflow-hidden">
                 <img src={burger} alt="Classic cheese Burger" className="w-full h-full object-cover" />
               </div>
-              <div className="p-4">
-                <h3 className="text-xl font-bold mb-2">Classic cheese Burger</h3>
-                <p className="text-sm mb-4">Double beef patty, aged cheddar, caramelized onions, house sauce on toasted brioche bun.</p>
+              <div className="p-4 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-xl font-bold mb-2">Classic cheese Burger</h3>
+                  <p className="text-sm mb-4">Double beef patty, aged cheddar, caramelized onions, house sauce on toasted brioche bun.</p>
+                </div>
                 <div className="flex justify-between items-center">
                   <span className="text-xl font-bold">30k Rwf</span>
-                  <button className="bg-red-600 text-white px-6 py-2 rounded-md font-bold">Order Now</button>
+                  <button className="bg-red-600 text-white py-2 px-6 rounded-md font-bold">Order Now</button>
                 </div>
               </div>
             </div>
 
             {/* Grilled Chicken Card */}
-            <div className="bg-gray-200 border-4 border-[#D4A017] rounded-t-lg">
-              <div className="h-32 overflow-hidden">
+              <div className="bg-gray-200 border-4 border-[#D4A017] rounded-t-lg mt-6 md:mt-0 flex flex-col h-full">
+              <div className="h-40 overflow-hidden">
                 <img src={menu} alt="Spiced Grilled Chicken" className="w-full h-full object-cover" />
               </div>
-              <div className="p-4">
-                <h3 className="text-xl font-bold mb-2">Spiced Grilled Chicken</h3>
-                <p className="text-sm mb-4">Marinated half chicken, slow-grilled to perfection. Served with crispy fries and garlic dip.</p>
+              <div className="p-4 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-xl font-bold mb-2">Spiced Grilled Chicken</h3>
+                  <p className="text-sm mb-4">Marinated half chicken, slow-grilled to perfection. Served with crispy fries and garlic dip.</p>
+                </div>
                 <div className="flex justify-between items-center">
                   <span className="text-xl font-bold">40k Rwf</span>
                   <button className="bg-red-600 text-white px-6 py-2 rounded-md font-bold">Order Now</button>
@@ -148,82 +161,96 @@ const Home: React.FC = () => {
             </div>
 
             {/* Stone Pizza Card */}
-            <div className="bg-gray-200 border-4 border-[#D4A017] rounded-t-lg">
-              <div className="h-32 overflow-hidden">
+              <div className="bg-gray-200 border-4 border-[#D4A017] rounded-t-lg mt-4 md:mt-10 flex flex-col h-full">
+              <div className="h-40 overflow-hidden">
                 <img src={pizza} alt="Stone-Baked Pizza" className="w-full h-full object-cover" />
               </div>
-              <div className="p-4">
-                <h3 className="text-xl font-bold mb-2">Stone-Baked Pizza</h3>
-                <p className="text-sm mb-4">Thin crust, house tomato base, fresh mozzarella baked in stone oven, ready in minutes.</p>
+              <div className="p-4 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-xl font-bold mb-2">Stone-Baked Pizza</h3>
+                  <p className="text-sm mb-4">Thin crust, house tomato base, fresh mozzarella baked in stone oven, ready in minutes.</p>
+                </div>
                 <div className="flex justify-between items-center">
                   <span className="text-xl font-bold">50k Rwf</span>
                   <button className="bg-red-600 text-white px-6 py-2 rounded-md font-bold">Order Now</button>
                 </div>
               </div>
             </div>
+            </div>
           </div>
 
-          {/* Featured Service Header */}
-          <div className="w-full bg-gray-800 py-4 mb-12" style={{ 
+          {/* Featured Service (smaller top margin than meals) */}
+          <div className="">
+            <div className="w-full bg-gray-800 py-4 mb-2" style={{ 
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
             backgroundBlendMode: 'soft-light'
           }}>
-            <h2 className="text-4xl font-bold text-white text-center">Featured Service</h2>
-          </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-white text-center">Featured Service</h2>
+            </div>
 
-          {/* Service Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            {/* Service Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
             {/* Dining In */}
-            <div className="bg-gray-200 border-4 border-[#D4A017] rounded-t-lg">
-              <div className="h-32 overflow-hidden">
+              <div className="bg-gray-200 border-4 border-[#D4A017] rounded-t-lg mt-0 md:mt-0 flex flex-col h-full">
+              <div className="h-40 overflow-hidden">
                 <img src={resto} alt="Dining In" className="w-full h-full object-cover" />
               </div>
-              <div className="p-4 text-center">
-                <h3 className="text-xl font-bold mb-2">Dining In</h3>
-                <p className="text-sm mb-4">Double beef patty, aged cheddar, caramelized onions, house sauce on toasted brioche bun.</p>
+              <div className="p-4 flex-1 flex flex-col justify-between text-center">
+                <div>
+                  <h3 className="text-xl font-bold mb-2">Dining In</h3>
+                  <p className="text-sm mb-4">Double beef patty, aged cheddar, caramelized onions, house sauce on toasted brioche bun.</p>
+                </div>
                 <button className="bg-red-600 text-white w-full py-2 rounded-md font-bold">Visit Us</button>
               </div>
             </div>
 
             {/* Table Reservations */}
-            <div className="bg-gray-200 border-4 border-[#D4A017] rounded-t-lg">
-              <div className="h-32 overflow-hidden">
-                <img src={resto} alt="Table Reservations" className="w-full h-full object-cover" />
+              <div className="bg-gray-200 border-4 border-[#D4A017] rounded-t-lg md:mt-10 flex flex-col h-full">
+              <div className="h-40 overflow-hidden">
+                <img src={menu} alt="Table Reservations" className="w-full h-full object-cover" />
               </div>
-              <div className="p-4 text-center">
-                <h3 className="text-xl font-bold mb-2">Table Reservations</h3>
-                <p className="text-sm mb-4">Double beef patty, aged cheddar, caramelized onions, house sauce on toasted brioche bun.</p>
+              <div className="p-4 flex-1 flex flex-col justify-between text-center">
+                <div>
+                  <h3 className="text-xl font-bold mb-2">Table Reservations</h3>
+                  <p className="text-sm mb-4">Double beef patty, aged cheddar, caramelized onions, house sauce on toasted brioche bun.</p>
+                </div>
                 <button className="bg-red-600 text-white w-full py-2 rounded-md font-bold">Book Tables</button>
               </div>
             </div>
 
             {/* Event Catering */}
-            <div className="bg-gray-200 border-4 border-[#D4A017] rounded-t-lg">
-              <div className="h-32 overflow-hidden">
-                <img src={menu} alt="Event Catering" className="w-full h-full object-cover" />
+              <div className="bg-gray-200 border-4 border-[#D4A017] rounded-t-lg mt-6 md:mt-0 flex flex-col h-full">
+              <div className="h-40 overflow-hidden">
+                <img src={chief} alt="Event Catering" className="w-full h-full object-cover" />
               </div>
-              <div className="p-4 text-center">
-                <h3 className="text-xl font-bold mb-2">Event Catering</h3>
-                <p className="text-sm mb-4">Double beef patty, aged cheddar, caramelized onions, house sauce on toasted brioche bun.</p>
+              <div className="p-4 flex-1 flex flex-col justify-between text-center">
+                <div>
+                  <h3 className="text-xl font-bold mb-2">Event Catering</h3>
+                  <p className="text-sm mb-4">Double beef patty, aged cheddar, caramelized onions, house sauce on toasted brioche bun.</p>
+                </div>
                 <button className="bg-red-600 text-white w-full py-2 rounded-md font-bold">Request catering</button>
               </div>
             </div>
 
             {/* Private Dining */}
-            <div className="bg-gray-200 border-4 border-[#D4A017] rounded-t-lg">
-              <div className="h-32 overflow-hidden">
-                <img src={resto} alt="Private Dining" className="w-full h-full object-cover" />
+              <div className="bg-gray-200 border-4 border-[#D4A017] rounded-t-lg mt-4 md:mt-10 flex flex-col h-full">
+              <div className="h-40 overflow-hidden">
+                <img src={yoga} alt="Private Dining" className="w-full h-full object-cover" />
               </div>
-              <div className="p-4 text-center">
-                <h3 className="text-xl font-bold mb-2">Private Dining</h3>
-                <p className="text-sm mb-4">Double beef patty, aged cheddar, caramelized onions, house sauce on toasted brioche bun.</p>
+              <div className="p-4 flex-1 flex flex-col justify-between text-center">
+                <div>
+                  <h3 className="text-xl font-bold mb-2">Private Dining</h3>
+                  <p className="text-sm mb-4">Double beef patty, aged cheddar, caramelized onions, house sauce on toasted brioche bun.</p>
+                </div>
                 <button className="bg-red-600 text-white w-full py-2 rounded-md font-bold">Contact Us</button>
               </div>
             </div>
+            </div>
+
           </div>
 
           {/* Promotional Offers Header */}
-          <div className="w-full bg-gray-800 py-4 mb-12" style={{ 
+          <div className="w-full bg-gray-800 py-4 mb-5" style={{ 
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
             backgroundBlendMode: 'soft-light'
           }}>
@@ -256,14 +283,14 @@ const Home: React.FC = () => {
             <div className="bg-gray-200 border-4 border-[#D4A017] rounded-t-lg relative">
               <div className="absolute right-4 top-4 w-20 h-20 bg-white rounded-full flex items-center justify-center z-10">
                 <span className="text-3xl font-bold text-red-600">30%</span>
-              </div>
-              <div className="h-40 overflow-hidden">
+                </div>
+                <div className="h-40 overflow-hidden">
                 <img src={menu} alt="Family meal offer" className="w-full h-full object-cover" />
-              </div>
-              <div className="p-4">
+                </div>
+                <div className="p-4">
                 <p className="text-sm mb-4">Feeds 4-6 people. mixed grills 4 sides, soft drinks and a shared dessert- all at one great price.</p>
                 <div className="flex justify-between items-center">
-                  <div className="bg-white px-6 py-2 rounded-md">
+                <div className="bg-white px-6 py-2 rounded-md">
                     <span className="text-xl font-bold text-gray-400 line-through mr-2">30k</span>
                     <span className="text-xl font-bold">20k</span>
                   </div>

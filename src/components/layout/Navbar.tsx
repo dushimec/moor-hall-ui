@@ -5,6 +5,8 @@ import logo from '../../assets/logomoor.png'
 
 type SubItem = { label: string; href?: string }
 
+const ACTIVE_COLOR = '#BF2201'
+
 const NavItem: React.FC<{ label: string; items?: SubItem[] }> = ({ label, items }) => {
   const [open, setOpen] = useState(false)
   const hasMenu = Array.isArray(items) && items.length > 0
@@ -20,7 +22,8 @@ const NavItem: React.FC<{ label: string; items?: SubItem[] }> = ({ label, items 
     >
       {hasMenu ? (
         <button
-          className={`text-md font-bold px-3 py-2 flex items-center gap-1 transition-colors duration-200 ${isActive ? 'text-[#C8961A]' : 'text-black hover:text-[#C8961A]'}`}
+          className={`text-md font-bold px-3 py-2 flex items-center gap-1 transition-colors duration-200 ${isActive ? '' : 'text-black hover:text-[#C8961A]'}`}
+          style={isActive ? { color: ACTIVE_COLOR } : undefined}
           aria-haspopup="true"
           aria-expanded={open}
           onFocus={() => setOpen(true)}
@@ -30,12 +33,13 @@ const NavItem: React.FC<{ label: string; items?: SubItem[] }> = ({ label, items 
           }}
         >
           <span>{label}</span>
-          <svg className={`w-4 h-4 transition-transform duration-200 ${open ? 'rotate-180' : ''} ${isActive ? 'text-[#C8961A]' : 'text-gray-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+          <svg className={`w-4 h-4 transition-transform duration-200 ${open ? 'rotate-180' : ''} ${isActive ? '' : 'text-gray-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
         </button>
       ) : (
         <Link 
           to={targetPath}
-          className={`text-md font-bold px-3 py-2 flex items-center gap-1 ${isActive ? 'text-[#C8961A]' : 'text-black hover:text-[#C8961A]'}`}
+          className={`text-md font-bold px-3 py-2 flex items-center gap-1 ${isActive ? '' : 'text-black hover:text-[#C8961A]'}`}
+          style={isActive ? { color: ACTIVE_COLOR } : undefined}
         >
           <span>{label}</span>
         </Link>
@@ -151,6 +155,7 @@ const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const navRef = useRef<HTMLElement | null>(null)
+  const drawerRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 40)
@@ -162,9 +167,13 @@ const Navbar: React.FC = () => {
   // Close mobile menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (navRef.current && !navRef.current.contains(event.target as Node)) {
-        setIsMobileMenuOpen(false)
-      }
+      const target = event.target as Node
+      // If click is inside the top nav, ignore.
+      if (navRef.current && navRef.current.contains(target)) return
+      // If click is inside the mobile drawer, ignore (we want users to interact with it).
+      if (drawerRef.current && drawerRef.current.contains(target)) return
+      // Otherwise treat as outside and close.
+      setIsMobileMenuOpen(false)
     }
 
     if (isMobileMenuOpen) {
@@ -223,14 +232,18 @@ const Navbar: React.FC = () => {
           <>
             <button
               onClick={() => {
-                setOpen(!open)
-                onClick?.()
+                // Toggle submenu without closing the mobile drawer.
+                // onClick prop is intended for closing the drawer when a link is selected;
+                // don't call it when expanding/collapsing a parent menu.
+                setOpen(prev => !prev)
               }}
-              className={`w-full text-left text-lg font-semibold px-6 py-4 flex items-center justify-between transition-colors duration-200 ${isActive ? 'text-[#C8961A]' : 'text-black hover:text-[#C8961A]'}`}
+              className={`w-full text-left text-lg font-semibold px-6 py-4 flex items-center justify-between transition-colors duration-200 ${isActive ? '' : 'text-black hover:text-[#C8961A]'}`}
+              style={isActive ? { color: ACTIVE_COLOR } : undefined}
+              aria-expanded={open}
             >
               <span>{label}</span>
               <svg 
-                className={`w-5 h-5 transition-transform duration-300 ${open ? 'rotate-180' : ''} ${isActive ? 'text-[#C8961A]' : 'text-gray-600'}`} 
+                className={`w-5 h-5 transition-transform duration-300 ${open ? 'rotate-180' : ''} ${isActive ? '' : 'text-gray-600'}`} 
                 fill="none" 
                 stroke="currentColor" 
                 viewBox="0 0 24 24" 
@@ -248,11 +261,26 @@ const Navbar: React.FC = () => {
                   transition={{ duration: 0.2, ease: 'easeInOut' }}
                   className="overflow-hidden bg-gray-50/50"
                 >
+                  {/* Parent link so mobile users can navigate to the parent page (e.g. /menu) */}
+                  <Link
+                    to={targetPath}
+                    onClick={() => onClick?.()}
+                    className="block px-10 py-3 text-base font-semibold text-gray-800 hover:text-[#C8961A] hover:bg-gray-100 transition-colors duration-200"
+                    style={isActive ? { color: ACTIVE_COLOR } : undefined}
+                  >
+                    View all {label}
+                  </Link>
+
+                  <div className="border-t border-gray-100" />
+
                   {items!.map((it, idx) => (
                     <Link
                       key={idx}
                       to={it.href ?? '#'}
-                      onClick={onClick}
+                      onClick={() => {
+                        // When a submenu link is clicked, close the drawer via onClick prop.
+                        onClick?.()
+                      }}
                       className="block px-10 py-3 text-base text-gray-600 hover:text-[#C8961A] hover:bg-gray-100 transition-colors duration-200"
                     >
                       {it.label}
@@ -346,6 +374,8 @@ const Navbar: React.FC = () => {
                 mass: 0.8,
                 ease: [0.25, 0.1, 0.25, 1]
               }}
+              // attach ref so outside-click detection ignores clicks inside the drawer
+              ref={drawerRef}
               className="fixed top-0 right-0 bottom-0 w-80 max-w-[85vw] bg-white shadow-2xl z-50 md:hidden overflow-y-auto"
             >
               {/* Header with logo and close button */}
@@ -363,16 +393,17 @@ const Navbar: React.FC = () => {
               </div>
 
               {/* Navigation Items */}
-              <div className="py-2">
-                {menuItems.map((item, idx) => (
-                  <MobileNavItem 
-                    key={idx} 
-                    label={item.label} 
-                    items={item.items} 
-                    onClick={() => setIsMobileMenuOpen(false)} 
-                  />
-                ))}
-              </div>
+                    <div className="py-2">
+                      {menuItems.map((item, idx) => (
+                        <MobileNavItem 
+                          key={idx} 
+                          label={item.label} 
+                          items={item.items} 
+                          // Pass a handler that closes the drawer when a real link is chosen.
+                          onClick={() => setIsMobileMenuOpen(false)} 
+                        />
+                      ))}
+                    </div>
 
               {/* Social Icons */}
               <div className="border-t border-gray-100 px-6 py-6 bg-gray-50/50">
