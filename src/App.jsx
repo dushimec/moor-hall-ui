@@ -13,6 +13,7 @@ import MissionValues from './pages/MissionValues'
 import OurStory from './pages/OurStory'
 import WhyChooseUs from './pages/WhyChooseUs'
 import Terms from './pages/Terms'
+import MenuPage from './pages/Menu'
 import Footer from './components/layout/Footer'
 
 export default function App() {
@@ -47,6 +48,18 @@ export default function App() {
 						<>
 							<Navbar />
 							<Contacts />
+						</>
+					} />
+					<Route path="/menu" element={
+						<>
+							<Navbar />
+							<MenuPage />
+						</>
+					} />
+					<Route path="/menu/*" element={
+						<>
+							<Navbar />
+							<MenuPage />
 						</>
 					} />
 					<Route path="/contact" element={
