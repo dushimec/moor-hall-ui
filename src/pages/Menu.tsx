@@ -1,17 +1,37 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Navbar from '../components/layout/Navbar'
 import Footer from '../components/layout/Footer'
 import menuImg from '../assets/menu.jpg'
 import betweenImg from '../assets/between.jpg'
+import chiefImg from '../assets/chief.jpg'
+import pizzaImg from '../assets/pizza.png'
+import burgerImg from '../assets/burger.png'
+import foodImg from '../assets/food.png'
 
 // Photographic banner backgrounds (Unsplash hotlinks)
 const FOOD_BG = 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80'
 // a cocktail/drinks-focused photo
 const DRINK_BG = 'https://images.unsplash.com/photo-1551024709-8f23befc6f5d?auto=format&fit=crop&w=1200&q=80'
 
-type CategoryId = 'all' | 'appetizers' | 'mains' | 'desserts' | 'drinks'
+type CategoryId = 'all' | 'cocktails' | 'breakfast' | 'dinner' | 'food'
 
-type Item = { id: string; title: string; price: string; description?: string }
+type Item = { id: string; title: string; price: string; image?: string; description?: string }
+
+// Category filter buttons configuration
+const CATEGORIES: { id: CategoryId; label: string }[] = [
+  { id: 'all', label: 'All' },
+  { id: 'cocktails', label: 'Cocktails' },
+  { id: 'breakfast', label: 'Breakfast' },
+  { id: 'dinner', label: 'Dinner' },
+  { id: 'food', label: 'Food' }
+]
+
+const SPECIALS_ITEMS: Item[] = [
+  { id: 's1', title: 'Crispy Crust Pizza', price: '20k Rwf', image: pizzaImg, description: 'Freshly baked with premium cheese, tomatoes, and ghyievwhscjcvueghvy.vcvghscvgveg, vchvdhvc gev, vgevsjhvcghwevty, aromatic herbs' },
+  { id: 's2', title: 'Grilled Salmon', price: '25k Rwf', image: foodImg, description: 'Atlantic salmon grilled to perfection with lemon butter sauce' },
+  { id: 's3', title: 'Premium Burger', price: '18k Rwf', image: burgerImg, description: 'Juicy beef patty with cheddar, lettuce, tomato, and special sauce' },
+  { id: 's4', title: 'Chocolate Lava Cake', price: '12k Rwf', image: foodImg, description: 'Warm chocolate cake with a molten center, served with vanilla ice cream' }
+]
 
 const SAMPLE_ITEMS: Record<Exclude<CategoryId, 'all'>, Item[]> = {
   appetizers: [
@@ -35,6 +55,12 @@ const SAMPLE_ITEMS: Record<Exclude<CategoryId, 'all'>, Item[]> = {
 }
 
 export default function Menu() {
+
+// offsets (in px) to stagger the specials cards vertically
+  const CARD_OFFSETS = [-40, 60, -40, 60]
+
+  // connector line heights based on padding + offset
+  const CONNECTOR_HEIGHTS = CARD_OFFSETS.map(offset => 100 + offset)
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -141,15 +167,72 @@ export default function Menu() {
         <div className="w-full relative">
           <div className="w-full h-4 md:h-5 lg:h-10">
             <img src={betweenImg} alt="between" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-              <h3 className="text-white text-xl md:text-2xl font-semibold tracking-widest">CHEF</h3>
+  
+          </div>
+        </div>
+        {/* Specials heading above chef background */}
+        {/* Textured heading strip (full-width) */}
+        <div className="w-full ">
+          <div
+            className="mx-auto px-6"
+            style={{
+              backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><rect width='10' height='10' fill='%23eaeaea'/><circle cx='3' cy='3' r='0.6' fill='%23d9d9d9'/></svg>")`,
+              backgroundRepeat: 'repeat',
+            }}
+          >
+            <h3 className="text-center text-2xl font-extrabold italic py-2">Our Specials Menu</h3>
+          </div>
+        </div>
+
+        {/* Specials row over chef background */}
+        <div className="w-full  relative">
+          <div className="absolute  inset-0">
+            <img src={chiefImg} alt="chef background" className="w-full h-full object-cover opacity-90" />
+            <div className="absolute inset-0 bg-black/30" />
+          </div>
+
+          <div className="relative max-w-16xl mx-auto px-6 py-25">
+            {CARD_OFFSETS.map((_, i) => (
+              <div key={`connector-${i}`} className="hidden md:block absolute w-px bg-red-500" style={{ top: 0, left: `${12.5 + i * 25}%`, height: `${CONNECTOR_HEIGHTS[i]}px` }}>
+                <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-red-500 rounded-full shadow-sm"></div>
+              </div>
+            ))}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+              {SPECIALS_ITEMS.map((item, idx) => {
+                const offset = CARD_OFFSETS[idx % CARD_OFFSETS.length] ?? 0
+                 return (
+                 <div key={item.id} style={{ marginTop: `${offset}px` }} className="bg-white/95 rounded-lg shadow-lg p-4 flex flex-col items-stretch h-full min-h-[380px]">
+                   <div className="flex items-center justify-center -mt-10 mb-4">
+                    <div className="w-30 h-30 mt-10 bg-white rounded-full overflow-hidden flex items-center justify-center shadow-md">
+                      <img src={item.image || menuImg} alt={item.title} className="w-full h-full object-cover" />
+                    </div>
+                  </div>
+
+                  <h4 className="text-center font-semibold">{item.title}</h4>
+                  <p className="text-sm text-gray-600 text-center mt-5">{item.description}</p>
+
+                  <div className="mt-auto pt-4 px-4 flex flex-col items-cente gap-3">
+                    <div className="text-lg font-bold text-gray-800">Price {item.price}</div>
+                    <button className="bg-red-600 text-white px-6 py-2 rounded-md shadow-sm hover:bg-red-700 transition-colors">Order Now</button>
+                  </div>
+                  </div>
+                )
+              })}
             </div>
           </div>
         </div>
-        
+
+        {/* Category buttons below specials menu */}
+        <div className="flex gap-40 justify-center py-3">
+          {CATEGORIES.map(cat => (
+            <button key={cat.id} className="px-4 p text-white rounded-md hover:bg-red-600 transition-colors">
+              {cat.label}
+            </button>
+          ))}
+        </div>
       </main>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   )
 }
