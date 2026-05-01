@@ -3,9 +3,9 @@ import conta from '../assets/conta.jpg'
 
 const Contacts: React.FC = () => {
   return (
-    <div>
-      {/* Contact Section with conta.jpg background */}
-      <section className="relative py-16 min-h-screen overflow-hidden">
+     <div>
+       {/* Contact Section with conta.jpg background */}
+       <section className="relative py-12 sm:py-16 min-h-screen overflow-hidden">
         {/* Background image cover */}
         <div 
           className="absolute inset-0"

@@ -2,7 +2,7 @@ import React from 'react'
 
 const WhyChooseUs: React.FC = () => {
   return (
-    <div className="min-h-screen pt-36 pb-16 px-4 max-w-6xl mx-auto">
+     <div className="min-h-screen pt-24 sm:pt-36 pb-16 px-4 max-w-6xl mx-auto">
       <h1 className="text-4xl font-bold text-center mb-12 text-red-700">Why Choose Us</h1>
       
       <div className="rounded-2xl overflow-hidden mb-8 max-w-4xl mx-auto">
@@ -17,7 +17,7 @@ const WhyChooseUs: React.FC = () => {
         <p className="mb-6">At Moor Hall, we believe in excellence in every detail. From our locally sourced ingredients to our expertly trained staff, we strive for perfection in everything we do.</p>
         <ul className="list-disc pl-8 mb-6">
           <li className="mb-2">Fresh, local ingredients daily</li>
-          <li className="mb-2">Award-winning culinary team</li>
+          <li className="mb-2">Award winning culinary team</li>
           <li className="mb-2">Warm, welcoming atmosphere</li>
           <li className="mb-2">Exceptional customer service</li>
         </ul>

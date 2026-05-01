@@ -8,14 +8,14 @@ const slides = [
     id: 'pizza',
     image: pizza,
     title: 'French Break\nCheesy Pizza',
-    description: 'Savour a rich blend of cheeses, herbs and perfectly baked crust — a French-inspired pizza experience crafted for sharing (or not).',
+    description: 'Savour a rich blend of cheeses, herbs and perfectly baked crust a French-inspired pizza experience crafted for sharing (or not).',
     price: '15,000 Rwf',
   },
   {
     id: 'burger',
     image: burger,
     title: 'Double Cheese\nBurger',
-    description: 'Juicy grilled patty layered with melted cheese and crisp lettuce — a classic done right for true burger lovers.',
+    description: 'Juicy grilled patty layered with melted cheese and crisp lettuce a classic done right for true burger lovers.',
     price: '20,000 Rwf',
   },
 ]
@@ -140,7 +140,7 @@ const Hero: React.FC = () => {
         </AnimatePresence>
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-8 pt-32 pb-24 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+       <div className="relative max-w-7xl mx-auto px-8 pt-16 pb-12 grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
         {/* Left navigation arrow */}
         <button 
           onClick={() => !isScrolling && setIndex((i) => (i - 1 + slides.length) % slides.length)}
@@ -162,73 +162,73 @@ const Hero: React.FC = () => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </button>
-        {/* Left: text content (staggered from up) */}
-        <div className="text-left h-full flex flex-col justify-center py-8 min-h-[420px]">
-          <div className="min-h-17">
-            <AnimatePresence mode="wait">
-              <motion.div key={current.id + '-badge'} initial="hidden" animate="visible" exit="exit" variants={badgeVariant(0)}>
-                <div className="inline-block  border font-bold border-white text-black text-lg rounded-md px-6 py-2 mb-6">
-                  {`PURCHASE TODAY, JUST ${current.price}`}
+         {/* Left: text content (staggered from up) */}
+         <div className="text-left h-full flex flex-col justify-center py-6 min-h-[320px] sm:min-h-[420px]">
+           <div className="min-h-[10px] sm:min-h-17">
+             <AnimatePresence mode="wait">
+               <motion.div key={current.id + '-badge'} initial="hidden" animate="visible" exit="exit" variants={badgeVariant(0)}>
+                 <div className="inline-block  border font-bold border-white text-black text-sm md:text-lg rounded-md px-4 md:px-6 py-1 md:py-2 mb-2 sm:mb-6">
+                   {`PURCHASE TODAY, JUST ${current.price}`}
+                 </div>
+               </motion.div>
+             </AnimatePresence>
+           </div>
+
+           <div className="min-h-[80px] sm:min-h-[180px]">
+             <AnimatePresence mode="wait">
+             <motion.h1 key={current.id + '-title'} className="text-2xl md:text-4xl lg:text-5xl font-bold text-white uppercase leading-tight drop-shadow-lg whitespace-pre-line" initial="hidden" animate="visible" exit="exit" variants={textVariant(0.12)}>
+               {current.title}
+             </motion.h1>
+             </AnimatePresence>
+           </div>
+
+           <div className="min-h-[40px] sm:min-h-[80px]">
+             <AnimatePresence mode="wait">
+               <motion.p key={current.id + '-desc'} className="mt-2 text-white/90 max-w-lg text-base md:text-lg font-semibold" initial="hidden" animate="visible" exit="exit" variants={textVariant(0.28)}>
+                 {current.description}
+               </motion.p>
+             </AnimatePresence>
+           </div>
+
+           <div className="min-h-[20px] sm:min-h-[50px]">
+             <AnimatePresence mode="wait">
+              <motion.div key={current.id + '-cta'} className="mt-4 flex gap-2 items-center" initial="hidden" animate="visible" exit="exit" variants={textVariant(0.44)}>
+                <button className="bg-[#C8961A] hover:bg-red-700 text-black font-bold px-4 md:px-6 py-1 md:py-2 rounded-md shadow-lg transition-all duration-300">Order Now</button>
+                <div className="flex items-center gap-1 text-white font-small md:font-medium">
+                  <svg className="w-4 h-4 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/>
+                  </svg>
+                  Available in Kigali
                 </div>
               </motion.div>
-            </AnimatePresence>
-          </div>
+             </AnimatePresence>
+           </div>
+         </div>
 
-          <div className="min-h-[180px]">
-            <AnimatePresence mode="wait">
-            <motion.h1 key={current.id + '-title'} className="text-4xl md:text-5xl lg:text-7xl font-bold text-white uppercase leading-tight drop-shadow-lg whitespace-pre-line" initial="hidden" animate="visible" exit="exit" variants={textVariant(0.12)}>
-              {current.title}
-            </motion.h1>
-            </AnimatePresence>
-          </div>
+         {/* Right: animated food images */}
+            <div className="flex items-center justify-center relative h-full py-6 sm:py-8 min-h-[320px] sm:min-h-[420px]">
+           {/* floating element (small) */}
+           <AnimatePresence></AnimatePresence>
+           <motion.div className="absolute -top-4 -right-6 sm:-top-6 sm:-right-10 md:-right-16" animate={{ y: [0, -8, 0], rotate: [0, 3, 0] }} transition={{ duration: 3, repeat: Infinity, repeatType: 'loop', ease: 'easeInOut' }}>
+             <img src={burger} alt="burger" className="w-10 h-10 mt-6 sm:mt-10 md:w-14 md:h-14 rounded-full object-cover shadow-lg border-2 border-white/20" />
+           </motion.div>
 
-          <div className="min-h-[80px]">
-            <AnimatePresence mode="wait">
-              <motion.p key={current.id + '-desc'} className="mt-4 text-white/90 max-w-lg text-lg font-semibold" initial="hidden" animate="visible" exit="exit" variants={textVariant(0.28)}>
-                {current.description}
-              </motion.p>
-            </AnimatePresence>
-          </div>
-
-          <div className="min-h-[50px]">
-            <AnimatePresence mode="wait">
-            <motion.div key={current.id + '-cta'} className="mt-8 flex gap-3 items-center" initial="hidden" animate="visible" exit="exit" variants={textVariant(0.44)}>
-              <button className="bg-[#C8961A] hover:bg-red-700 text-black font-bold px-6 py-2 rounded-md shadow-lg transition-all duration-300">Order Now</button>
-              <div className="flex items-center gap-2 text-white font-medium">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/>
-                </svg>
-                Available in Kigali
-              </div>
-            </motion.div>
-            </AnimatePresence>
-          </div>
-        </div>
-
-        {/* Right: animated food images */}
-        <div className="flex items-center justify-center relative h-full py-8 min-h-[420px]">
-          {/* floating element (small) */}
-          <AnimatePresence></AnimatePresence>
-          <motion.div className="absolute -top-6 -right-10 md:-right-16" animate={{ y: [0, -10, 0], rotate: [0, 4, 0] }} transition={{ duration: 4, repeat: Infinity, repeatType: 'loop', ease: 'easeInOut' }}>
-            <img src={burger} alt="burger" className="w-14 h-14 mt-10 md:w-20 md:h-20 rounded-full object-cover shadow-lg border-2 border-white/20" />
-          </motion.div>
-
-          <div className="relative w-full min-h-[320px] md:min-h-[450px] flex items-center justify-center overflow-visible">
-            <AnimatePresence mode="wait">
-              <motion.div key={current.id + '-img'} className="w-full h-full flex items-center justify-center" variants={imageVariant} initial="hidden" animate="visible" exit="exit">
-                <motion.img 
-                  src={current.image} 
-                  alt={current.title} 
-                  className="max-w-full max-h-[380px] md:max-h-[500px] w-auto h-auto object-contain drop-shadow-2xl" 
-                  initial={{ scale: 1 }} 
-                  animate={{ scale: 1.04 }} 
-                  transition={{ duration: 14, ease: 'easeInOut' }} 
-                  style={{ imageRendering: 'auto' }}
-                />
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </div>
+           <div className="relative w-full min-h-[240px] sm:min-h-[320px] md:min-h-[450px] flex items-center justify-center overflow-visible">
+             <AnimatePresence mode="wait">
+               <motion.div key={current.id + '-img'} className="w-full h-full flex items-center justify-center" variants={imageVariant} initial="hidden" animate="visible" exit="exit">
+                 <motion.img 
+                   src={current.image} 
+                   alt={current.title} 
+                   className="max-w-full max-h-[280px] sm:max-h-[380px] md:max-h-[500px] w-auto h-auto object-contain drop-shadow-2xl" 
+                   initial={{ scale: 1 }} 
+                   animate={{ scale: 1.02 }} 
+                   transition={{ duration: 12, ease: 'easeInOut' }} 
+                   style={{ imageRendering: 'auto' }}
+                 />
+               </motion.div>
+             </AnimatePresence>
+           </div>
+         </div>
       </div>
 
       {/* Scroll indicator dots */}

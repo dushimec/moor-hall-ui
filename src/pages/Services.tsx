@@ -5,7 +5,7 @@ const Services: React.FC = () => {
   return (
     <div>
       {/* Services Section with servi.png background */}
-      <section className="relative py-16 min-h-screen overflow-hidden">
+       <section className="relative py-12 sm:py-16 min-h-screen overflow-hidden">
         {/* Background image cover */}
         <div 
           className="absolute inset-0"
