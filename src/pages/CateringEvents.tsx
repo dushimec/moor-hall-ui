@@ -21,8 +21,8 @@ const CateringEvents: React.FC = () => {
   ]
 
   return (
-    <div 
-      className="min-h-screen pt-32 pb-16 px-4"
+     <div 
+       className="min-h-screen pt-24 sm:pt-32 pb-16 px-4"
       style={{ 
         backgroundImage: `url(${foodBackground})`, 
         backgroundSize: 'cover',
