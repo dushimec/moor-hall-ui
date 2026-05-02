@@ -192,9 +192,12 @@ const Navbar: React.FC = () => {
     { 
       label: 'Menu', 
       items: [
-        { label: 'Pizza', href: '/menu/pizza' }, 
-        { label: 'Burgers', href: '/menu/burgers' }, 
-        { label: 'Desserts', href: '/menu/desserts' }
+        { label: 'Breakfast', href: '/menu/Breakfast' }, 
+        { label: 'Lunch', href: '/menu/Lunch' }, 
+        { label: 'Dinner', href: '/menu/Dinner' },
+        { label: 'Coffee & Beverages', href: '/menu/Coffee & Beverages' },
+        { label: 'Bakery items', href: '/menu/Bakery items' },
+        { label: 'Special meals', href: '/menu/Special meals' },
       ] 
     },
     { 

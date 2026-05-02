@@ -14,6 +14,7 @@ import OurStory from './pages/OurStory'
 import WhyChooseUs from './pages/WhyChooseUs'
 import Terms from './pages/Terms'
 import MenuPage from './pages/Menu'
+import BreakfastPage from './pages/Breakfast'
 import Footer from './components/layout/Footer'
 
 export default function App() {
@@ -54,6 +55,12 @@ export default function App() {
 						<>
 							<Navbar />
 							<MenuPage />
+						</>
+					} />
+					<Route path="/menu/Breakfast" element={
+						<>
+							<Navbar />
+							<BreakfastPage />
 						</>
 					} />
 					<Route path="/menu/*" element={
