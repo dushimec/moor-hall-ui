@@ -2,7 +2,7 @@ import React from 'react'
 
 const OurStory: React.FC = () => {
   return (
-    <div className="min-h-screen pt-36 pb-16 px-4 max-w-6xl mx-auto">
+     <div className="min-h-screen pt-24 sm:pt-36 pb-16 px-4 max-w-6xl mx-auto">
       <h1 className="text-4xl font-bold text-center mb-12 text-red-700">Our Story</h1>
       
       <div className="rounded-2xl overflow-hidden mb-8 max-w-4xl mx-auto">

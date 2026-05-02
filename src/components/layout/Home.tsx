@@ -26,7 +26,7 @@ const Home: React.FC = () => {
         className="absolute bottom-0 left-0 w-full h-48"
         style={{
           background: 'linear-gradient(to right, #0a0a0a, #1a1a1a)',
-          clipPath: 'polygon(0 40%, 100% 0%, 100% 100%, 0 100%)'
+          clipPath: 'polygon(0 80%, 100% 0%, 100% 100%, 0 100%)'
         }}
       >
         <div 
@@ -39,22 +39,22 @@ const Home: React.FC = () => {
       </div>
 
       {/* Gold border frame */}
-      <div className="absolute inset-4 pointer-events-none z-10  rounded-xl" />
+    <div className="absolute inset-2 pointer-events-none z-10  rounded-xl" />
 
       <div className="relative z-0 max-w-7xl mx-auto px-8 py-1">
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center min-h-50">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center min-h-50">
           {/* Text Content */}
-          <div className="  rounded-none shadow-lg" style={{ clipPath: 'polygon(0 0, 100% 0, 88% 100%, 0 100%)' }}>
+          <div className=" rounded-none shadow-lg px-6 py-8" style={{ clipPath: 'polygon(0 0, 100% 0, 88% 100%, 0 100%)' }}>
             <h3 className="text-[#D4A017] text-2xl md:text-3xl font-bold mb-2">Welcome to</h3>
-            <h2 className="text-black text-2xl md:text-2xl font-bold mb-">Moor Hall Restaurant</h2>
+            <h2 className="text-black text-2xl md:text-2xl font-bold mb-4">Moor Hall Restaurant</h2>
             
-            <p className="text-black text-sm md:text-sm mb-1 leading-relaxed font-medium">
+            <p className="text-black text-sm md:text-sm mb-4 leading-relaxed font-medium">
               Since 2019, Moor Hall has been serving bold, honest food made from fresh local ingredients. 
               Whether it's a quick lunch or a special occasion we make every meal memorable.
             </p>
 
             <div>
-              <div className="flex items-center gap-4 mb-10">
+              <div className="flex items-center gap-2 mb-4">
                 <p className="text-black text-xl md:text-2xl font-bold">Customer reviews</p>
                
                   {[...Array(5)].map((_, i) => (
@@ -64,7 +64,7 @@ const Home: React.FC = () => {
                   ))}
                 
               </div>
-              <p className="text-white text-sm md:text-sm mb-10 font-bold">1000+ Happy Customers</p>
+              <p className="text-black text-sm md:text-sm mt-4 font-medium">1000+ Happy Customers</p>
              
             </div>
           </div>
@@ -72,16 +72,16 @@ const Home: React.FC = () => {
 
 
 
-          {/* Image Column - welcome.jpg on right side */}
-          <div className="flex justify-end">
-            <div className="rounded-3xl border-8 border-[#D4A017] w-80 h-96 overflow-hidden shadow-xl max-w-lg aspect-square">
-              <img 
-                src={yoga} 
-                alt="Restaurant welcome" 
-                className="w-full h-full object-cover"
-              />
+            {/* Image Column - welcome.jpg on right side */}
+            <div className="flex justify-end">
+              <div className="rounded-3xl border-8 border-[#D4A017] w-full max-w-[60rem] h-[38rem] overflow-hidden shadow-xl max-w-lg aspect-square sm:h-[32rem] xs:h-[26rem]">
+                <img 
+                  src={yoga} 
+                  alt="Restaurant welcome" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
             </div>
-          </div>
         </div>
       </div>
     </section>

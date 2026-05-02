@@ -310,9 +310,9 @@ const Navbar: React.FC = () => {
     <>
       {isScrolled && <div style={{ height: 96 }} aria-hidden />}
 
-      <nav ref={navRef} className={`absolute top-0 left-0 right-0 bg-white/90 text-black backdrop-blur-md rounded-xl shadow-lg mt-5 mx-auto px-8 max-w-7xl w-[90%] flex items-center justify-between transition-all duration-300 z-50`}>
+       <nav ref={navRef} className={`absolute top-0 left-0 right-0 bg-white/90 text-black backdrop-blur-md rounded-xl shadow-lg mt-4 mx-auto px-4 sm:px-6 max-w-7xl w-full flex items-center justify-between transition-all duration-300 z-50`}>
         <div className="flex items-center gap-3">
-          <img src={logo} alt="Moor-Hall" className="w-28 h-24 object-contain rounded-full" />
+           <img src={logo} alt="Moor-Hall" className="w-24 h-20 sm:w-28 sm:h-24 object-contain rounded-full" />
         </div>
 
         {/* Desktop Navigation */}
@@ -379,7 +379,7 @@ const Navbar: React.FC = () => {
               }}
               // attach ref so outside-click detection ignores clicks inside the drawer
               ref={drawerRef}
-              className="fixed top-0 right-0 bottom-0 w-80 max-w-[85vw] bg-white shadow-2xl z-50 md:hidden overflow-y-auto"
+               className="fixed top-0 right-0 bottom-0 w-[90%] max-w-xs bg-white shadow-2xl z-50 md:hidden overflow-y-auto"
             >
               {/* Header with logo and close button */}
               <div className="sticky top-0 bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between">
