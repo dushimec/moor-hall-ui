@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/layout/Navbar'
 import Footer from '../components/layout/Footer'
 import menuImg from '../assets/menu.jpg'
@@ -52,15 +53,25 @@ const SAMPLE_ITEMS: Record<Exclude<CategoryId, 'all'>, Item[]> = {
     { id: 'dr3', title: 'Mirinda', price: '2k Rwf' },
     { id: 'dr4', title: 'energy', price: '1k Rwf' }
   ]
+
+}
+
+const MENU_ITEMS: Record<Exclude<CategoryId, 'all'>, Item[]> = {
+  cocktails: SAMPLE_ITEMS.drinks.map(item => ({ ...item, description: 'A refreshing drink to complement your meal.', image: foodImg })),
+  breakfast: SAMPLE_ITEMS.appetizers.map(item => ({ ...item, description: 'Start your day with this delicious breakfast option.', image: pizzaImg })),
+  dinner: SAMPLE_ITEMS.mains.map(item => ({ ...item, description: 'Enjoy this hearty dinner dish.', image: burgerImg })),
+  food: [...SAMPLE_ITEMS.appetizers, ...SAMPLE_ITEMS.mains, ...SAMPLE_ITEMS.desserts].map(item => ({ ...item, description: 'A tasty food item from our menu.', image: foodImg }))
 }
 
 export default function Menu() {
-
 // offsets (in px) to stagger the specials cards vertically
   const CARD_OFFSETS = [-40, 60, -40, 60]
 
-  // connector line heights based on padding + offset
+// connector line heights based on padding + offset
   const CONNECTOR_HEIGHTS = CARD_OFFSETS.map(offset => 100 + offset)
+
+  const [selectedCategory, setSelectedCategory] = useState<CategoryId>('all')
+  const navigate = useNavigate()
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -188,7 +199,6 @@ export default function Menu() {
         <div className="w-full  relative">
           <div className="absolute  inset-0">
             <img src={chiefImg} alt="chef background" className="w-full h-full object-cover opacity-90" />
-            <div className="absolute inset-0 bg-black/30" />
           </div>
 
           <div className="relative max-w-16xl mx-auto px-6 py-25">
@@ -211,10 +221,10 @@ export default function Menu() {
                   <h4 className="text-center font-semibold">{item.title}</h4>
                   <p className="text-sm text-gray-600 text-center mt-5">{item.description}</p>
 
-                  <div className="mt-auto pt-4 px-4 flex flex-col items-cente gap-3">
-                    <div className="text-lg font-bold text-gray-800">Price {item.price}</div>
-                    <button className="bg-red-600 text-white px-6 py-2 rounded-md shadow-sm hover:bg-red-700 transition-colors">Order Now</button>
-                  </div>
+                   <div className="mt-auto pt-4 px-4 flex flex-col items-cente gap-3">
+                     <div className="text-lg font-bold text-gray-800">Price {item.price}</div>
+                     <button onClick={() => navigate('/product', { state: item })} className="bg-red-600 text-white px-6 py-2 rounded-md shadow-sm hover:bg-red-700 transition-colors">Order Now</button>
+                   </div>
                   </div>
                 )
               })}
@@ -223,13 +233,53 @@ export default function Menu() {
         </div>
 
         {/* Category buttons below specials menu */}
-        <div className="flex gap-40 justify-center py-3">
+        <div className="flex  bg-gray-200 gap-40 justify-center py-3">
           {CATEGORIES.map(cat => (
-            <button key={cat.id} className="px-4 p text-white rounded-md hover:bg-red-600 transition-colors">
+            <button key={cat.id} onClick={() => setSelectedCategory(cat.id)} className={`px-4 py-2 text-black font-bold text-xl rounded-md ${selectedCategory === cat.id ? 'bg-red-600 text-white' : 'hover:bg-red-600 hover:text-white'} transition-colors`}>
               {cat.label}
             </button>
           ))}
         </div>
+
+        {(() => {
+          const items = selectedCategory === 'all' ? Object.values(MENU_ITEMS).flat() : MENU_ITEMS[selectedCategory as Exclude<CategoryId, 'all'>]
+          const category = selectedCategory === 'all' ? null : CATEGORIES.find(c => c.id === selectedCategory)
+          if (items.length === 0) return null
+          const bgImage = category ? (selectedCategory === 'cocktails' ? DRINK_BG : FOOD_BG) : null
+          return (
+            <div className="max-w-7xl mx-auto p-6 mb-20 mt-5">
+              {bgImage && (
+                <div className="rounded-xl overflow-hidden ring-4 mb-4 shadow-lg">
+                  
+                </div>
+              )}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {items.map(item => {
+                  const priceParts = item.price.split(' ')
+                  return (
+                    <div key={item.id} className="bg-white border rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow flex">
+                      <div className="w-16 h-16 rounded-md overflow-hidden mr-4 flex-shrink-0">
+                        <img src={item.image || menuImg} alt={item.title} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex justify-between items-start">
+                          <h3 className="font-semibold text-lg">{item.title}</h3>
+                          <div className="font-bold text-gray-800 text-lg text-right">
+                            <div>{priceParts[0]}</div>
+                            <div className="text-sm">{priceParts[1]}</div>
+                          </div>
+                        </div>
+                        <p className="text-sm text-gray-600 mt-1">{item.description}</p>
+                        <button onClick={() => navigate('/product', { state: item })} className="bg-red-600 text-white px-4 py-2 rounded-md mt-2 hover:bg-red-700">Order Now</button>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )
+        })()}
+
       </main>
 
       {/* <Footer /> */}
