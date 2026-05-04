@@ -18,17 +18,17 @@ const ProductDetails: React.FC = () => {
 
   const [quantity, setQuantity] = useState(1)
   const [selectedAddons, setSelectedAddons] = useState<string[]>([])
-  const [selectedSize, setSelectedSize] = useState('Medium')
 
   if (!product) {
     return <div className="min-h-screen flex items-center justify-center">Product not found</div>
   }
 
-  const sizes: Size[] = [
-    { name: 'Small', price: 30000 },
-    { name: 'Medium', price: 40000 },
-    { name: 'Large', price: 50000 }
-  ]
+  const parsePrice = (priceStr: string) => {
+    const num = parseFloat(priceStr.replace('k', '').replace(' Rwf', ''));
+    return priceStr.includes('k') ? num * 1000 : num;
+  }
+
+  const basePrice = parsePrice(product.price)
 
   const addons: Addon[] = [
     { name: 'Extra cheese', price: 5000 },
@@ -37,7 +37,6 @@ const ProductDetails: React.FC = () => {
     { name: 'Grilled chicken', price: 4000 }
   ]
 
-  const basePrice = sizes.find(s => s.name === selectedSize)?.price || 0
   const addonPrice = selectedAddons.reduce((sum, addonName) => {
     const addon = addons.find(a => a.name === addonName)
     return sum + (addon ? addon.price : 0)
@@ -57,7 +56,7 @@ const ProductDetails: React.FC = () => {
   }
 
   const handleConfirmOrder = () => {
-    alert(`Order confirmed!\n${product.title}\nSize: ${selectedSize}\nQuantity: ${quantity}\nAddons: ${selectedAddons.join(', ') || 'None'}\nTotal: ${totalPrice} Rwf`)
+    alert(`Order confirmed!\n${product.title}\nQuantity: ${quantity}\nAddons: ${selectedAddons.join(', ') || 'None'}\nTotal: ${totalPrice} Rwf`)
   }
 
   return (
@@ -82,20 +81,7 @@ const ProductDetails: React.FC = () => {
               <h1 className="text-3xl font-bold mb-4">{product.title}</h1>
               <div className="text-2xl font-bold text-red-600 mb-6">{totalPrice} Rwf</div>
 
-              <div className="mb-6">
-                <label className="block text-base font-medium mb-2">Size:</label>
-                <div className="flex space-x-3">
-                  {sizes.map(size => (
-                    <button
-                      key={size.name}
-                      onClick={() => setSelectedSize(size.name)}
-                      className={`px-4 py-2 rounded-lg border-2 text-base font-medium hover:bg-gray-50 transition ${selectedSize === size.name ? 'border-red-500 bg-red-50 text-red-700' : 'border-gray-300'}`}
-                    >
-                      {size.name} ({size.price} Rwf)
-                    </button>
-                  ))}
-                </div>
-              </div>
+
 
               <div className="mb-6">
                 <label className="block text-base font-medium mb-2">Quantity:</label>

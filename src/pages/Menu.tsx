@@ -14,7 +14,7 @@ const FOOD_BG = 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?au
 // a cocktail/drinks-focused photo
 const DRINK_BG = 'https://images.unsplash.com/photo-1551024709-8f23befc6f5d?auto=format&fit=crop&w=1200&q=80'
 
-type CategoryId = 'all' | 'cocktails' | 'breakfast' | 'dinner' | 'food'
+type CategoryId = 'all' | 'cocktails' | 'dinner' | 'food'
 
 type Item = { id: string; title: string; price: string; image?: string; description?: string }
 
@@ -22,7 +22,6 @@ type Item = { id: string; title: string; price: string; image?: string; descript
 const CATEGORIES: { id: CategoryId; label: string }[] = [
   { id: 'all', label: 'All' },
   { id: 'cocktails', label: 'Cocktails' },
-  { id: 'breakfast', label: 'Breakfast' },
   { id: 'dinner', label: 'Dinner' },
   { id: 'food', label: 'Food' }
 ]
@@ -58,7 +57,6 @@ const SAMPLE_ITEMS: Record<Exclude<CategoryId, 'all'>, Item[]> = {
 
 const MENU_ITEMS: Record<Exclude<CategoryId, 'all'>, Item[]> = {
   cocktails: SAMPLE_ITEMS.drinks.map(item => ({ ...item, description: 'A refreshing drink to complement your meal.', image: foodImg })),
-  breakfast: SAMPLE_ITEMS.appetizers.map(item => ({ ...item, description: 'Start your day with this delicious breakfast option.', image: pizzaImg })),
   dinner: SAMPLE_ITEMS.mains.map(item => ({ ...item, description: 'Enjoy this hearty dinner dish.', image: burgerImg })),
   food: [...SAMPLE_ITEMS.appetizers, ...SAMPLE_ITEMS.mains, ...SAMPLE_ITEMS.desserts].map(item => ({ ...item, description: 'A tasty food item from our menu.', image: foodImg }))
 }
@@ -211,20 +209,19 @@ export default function Menu() {
               {SPECIALS_ITEMS.map((item, idx) => {
                 const offset = CARD_OFFSETS[idx % CARD_OFFSETS.length] ?? 0
                  return (
-                 <div key={item.id} style={{ marginTop: `${offset}px` }} className="bg-white/95 rounded-lg shadow-lg p-4 flex flex-col items-stretch h-full min-h-[380px]">
-                   <div className="flex items-center justify-center -mt-10 mb-4">
-                    <div className="w-30 h-30 mt-10 bg-white rounded-full overflow-hidden flex items-center justify-center shadow-md">
-                      <img src={item.image || menuImg} alt={item.title} className="w-full h-full object-cover" />
-                    </div>
-                  </div>
-
-                  <h4 className="text-center font-semibold">{item.title}</h4>
-                  <p className="text-sm text-gray-600 text-center mt-5">{item.description}</p>
-
-                   <div className="mt-auto pt-4 px-4 flex flex-col items-cente gap-3">
-                     <div className="text-lg font-bold text-gray-800">Price {item.price}</div>
-                     <button onClick={() => navigate('/product', { state: item })} className="bg-red-600 text-white px-6 py-2 rounded-md shadow-sm hover:bg-red-700 transition-colors">Order Now</button>
+                  <div key={item.id} style={{ marginTop: `${offset}px` }} onClick={() => navigate('/product', { state: item })} className="bg-white/95 rounded-lg shadow-lg p-4 flex flex-col items-stretch h-full min-h-[380px] cursor-pointer">
+                    <div className="flex items-center justify-center -mt-10 mb-4">
+                     <div className="w-30 h-30 mt-10 bg-white rounded-full overflow-hidden flex items-center justify-center shadow-md">
+                       <img src={item.image || menuImg} alt={item.title} className="w-full h-full object-cover" />
+                     </div>
                    </div>
+
+                   <h4 className="text-center font-semibold">{item.title}</h4>
+                   <p className="text-sm text-gray-600 text-center mt-5">{item.description}</p>
+
+                    <div className="mt-auto pt-4 px-4 flex flex-col items-cente gap-3">
+                      <div className="text-lg font-bold text-gray-800">Price {item.price}</div>
+                    </div>
                   </div>
                 )
               })}
@@ -257,7 +254,7 @@ export default function Menu() {
                 {items.map(item => {
                   const priceParts = item.price.split(' ')
                   return (
-                    <div key={item.id} className="bg-white border rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow flex">
+                    <div key={item.id} onClick={() => navigate('/product', { state: item })} className="bg-white border rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow flex cursor-pointer">
                       <div className="w-16 h-16 rounded-md overflow-hidden mr-4 flex-shrink-0">
                         <img src={item.image || menuImg} alt={item.title} className="w-full h-full object-cover" />
                       </div>
@@ -270,7 +267,6 @@ export default function Menu() {
                           </div>
                         </div>
                         <p className="text-sm text-gray-600 mt-1">{item.description}</p>
-                        <button onClick={() => navigate('/product', { state: item })} className="bg-red-600 text-white px-4 py-2 rounded-md mt-2 hover:bg-red-700">Order Now</button>
                       </div>
                     </div>
                   )

@@ -202,11 +202,11 @@ const Home: React.FC = () => {
                   <h3 className="text-xl font-bold mb-2">Dining In</h3>
                   <p className="text-sm mb-4">Double beef patty, aged cheddar, caramelized onions, house sauce on toasted brioche bun.</p>
                 </div>
-                <button className="bg-red-600 text-white w-full py-2 rounded-md font-bold">Visit Us</button>
-              </div>
-            </div>
+                 <button onClick={() => navigate('/menu')} className="bg-red-600 text-white w-full py-2 rounded-md font-bold">Book Now</button>
+               </div>
+             </div>
 
-            {/* Table Reservations */}
+             {/* Table Reservations */}
               <div className="bg-gray-200 border-4 border-[#D4A017] rounded-t-lg md:mt-10 flex flex-col h-full">
               <div className="h-40 overflow-hidden">
                 <img src={menu} alt="Table Reservations" className="w-full h-full object-cover" />
@@ -216,7 +216,7 @@ const Home: React.FC = () => {
                   <h3 className="text-xl font-bold mb-2">Table Reservations</h3>
                   <p className="text-sm mb-4">Double beef patty, aged cheddar, caramelized onions, house sauce on toasted brioche bun.</p>
                 </div>
-                <button className="bg-red-600 text-white w-full py-2 rounded-md font-bold">Book Tables</button>
+                 <button onClick={() => navigate('/menu')} className="bg-red-600 text-white w-full py-2 rounded-md font-bold">Order Now</button>
               </div>
             </div>
 
@@ -230,7 +230,7 @@ const Home: React.FC = () => {
                   <h3 className="text-xl font-bold mb-2">Event Catering</h3>
                   <p className="text-sm mb-4">Double beef patty, aged cheddar, caramelized onions, house sauce on toasted brioche bun.</p>
                 </div>
-                <button className="bg-red-600 text-white w-full py-2 rounded-md font-bold">Request catering</button>
+                 <button onClick={() => navigate('/menu')} className="bg-red-600 text-white w-full py-2 rounded-md font-bold">Order Now</button>
               </div>
             </div>
 
@@ -244,10 +244,10 @@ const Home: React.FC = () => {
                   <h3 className="text-xl font-bold mb-2">Private Dining</h3>
                   <p className="text-sm mb-4">Double beef patty, aged cheddar, caramelized onions, house sauce on toasted brioche bun.</p>
                 </div>
-                <button className="bg-red-600 text-white w-full py-2 rounded-md font-bold">Contact Us</button>
-              </div>
-            </div>
-            </div>
+                 <button onClick={() => navigate('/menu')} className="bg-red-600 text-white w-full py-2 rounded-md font-bold">Book Tables</button>
+               </div>
+             </div>
+             </div>
 
           </div>
 
