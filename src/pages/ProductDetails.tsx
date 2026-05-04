@@ -24,17 +24,10 @@ const ProductDetails: React.FC = () => {
     return <div className="min-h-screen flex items-center justify-center">Product not found</div>
   }
 
-  const parsePrice = (priceStr: string) => {
-    const num = parseFloat(priceStr.replace('k', '').replace(' Rwf', ''));
-    return priceStr.includes('k') ? num * 1000 : num;
-  }
-
-  const basePriceValue = parsePrice(product.price)
-
   const sizes: Size[] = [
-    { name: 'Small', price: basePriceValue * 0.8 },
-    { name: 'Medium', price: basePriceValue },
-    { name: 'Large', price: basePriceValue * 1.2 }
+    { name: 'Small', price: 30000 },
+    { name: 'Medium', price: 40000 },
+    { name: 'Large', price: 50000 }
   ]
 
   const addons: Addon[] = [
@@ -74,11 +67,11 @@ const ProductDetails: React.FC = () => {
         <div className="flex-1 overflow-hidden">
           <div className="h-full md:flex">
             <div className="md:w-1/2 h-full flex flex-col">
-              <img src={product.image} alt={product.title} className="w-full h-64 md:h-1/2 object-cover" />
-              <div className="flex space-x-2 mt-4 px-4">
-                <img src={product.image} alt="thumbnail 1" className="w-24 h-16 md:w-40 md:h-20 object-cover rounded-lg cursor-pointer hover:opacity-80" />
-                <img src={product.image} alt="thumbnail 2" className="w-24 h-16 md:w-40 md:h-20 object-cover rounded-lg cursor-pointer hover:opacity-80" />
-                <img src={product.image} alt="thumbnail 3" className="w-24 h-16 md:w-40 md:h-20 object-cover rounded-lg cursor-pointer hover:opacity-80" />
+              <img src={product.image} alt={product.title} className="w-full h-64 md:h-1/2 object-cover md:mt-10" />
+              <div className="flex space-x-2 mt-4 px-">
+                <img src={product.image} alt="thumbnail 1" className="w-24 h-16 md:w-60 md:h-20 object-cover rounded-lg cursor-pointer hover:opacity-80" />
+                <img src={product.image} alt="thumbnail 2" className="w-24 h-16 md:w-60 md:h-20 object-cover rounded-lg cursor-pointer hover:opacity-80" />
+                <img src={product.image} alt="thumbnail 3" className="w-24 h-16 md:w-60 md:h-20 object-cover rounded-lg cursor-pointer hover:opacity-80" />
               </div>
               <div className="mt-4 px-4">
                 <h2 className="text-xl font-bold mb-2">About product</h2>
@@ -87,7 +80,7 @@ const ProductDetails: React.FC = () => {
             </div>
             <div className="md:w-1/2 p-6 flex flex-col">
               <h1 className="text-3xl font-bold mb-4">{product.title}</h1>
-              <div className="text-2xl font-bold text-red-600 mb-6">{product.price}</div>
+              <div className="text-2xl font-bold text-red-600 mb-6">{totalPrice} Rwf</div>
 
               <div className="mb-6">
                 <label className="block text-base font-medium mb-2">Size:</label>
@@ -133,7 +126,7 @@ const ProductDetails: React.FC = () => {
 
               <div className="text-xl font-bold mb-4">Total: {totalPrice} Rwf</div>
                <div>
-                               <button onClick={handleConfirmOrder} className="bg-green-600 flex flex-col text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 text-base transition">Pay Now</button>
+                <button onClick={handleConfirmOrder} className="bg-green-600 flex flex-col text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 text-base transition">Pay Now</button>
 
                </div>
             </div>
