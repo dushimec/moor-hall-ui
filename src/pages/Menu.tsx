@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/layout/Navbar'
 import Footer from '../components/layout/Footer'
 import menuImg from '../assets/menu.jpg'
@@ -66,10 +67,11 @@ export default function Menu() {
 // offsets (in px) to stagger the specials cards vertically
   const CARD_OFFSETS = [-40, 60, -40, 60]
 
-  // connector line heights based on padding + offset
+// connector line heights based on padding + offset
   const CONNECTOR_HEIGHTS = CARD_OFFSETS.map(offset => 100 + offset)
 
   const [selectedCategory, setSelectedCategory] = useState<CategoryId>('all')
+  const navigate = useNavigate()
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -219,10 +221,10 @@ export default function Menu() {
                   <h4 className="text-center font-semibold">{item.title}</h4>
                   <p className="text-sm text-gray-600 text-center mt-5">{item.description}</p>
 
-                  <div className="mt-auto pt-4 px-4 flex flex-col items-cente gap-3">
-                    <div className="text-lg font-bold text-gray-800">Price {item.price}</div>
-                    <button className="bg-red-600 text-white px-6 py-2 rounded-md shadow-sm hover:bg-red-700 transition-colors">Order Now</button>
-                  </div>
+                   <div className="mt-auto pt-4 px-4 flex flex-col items-cente gap-3">
+                     <div className="text-lg font-bold text-gray-800">Price {item.price}</div>
+                     <button onClick={() => navigate('/product', { state: item })} className="bg-red-600 text-white px-6 py-2 rounded-md shadow-sm hover:bg-red-700 transition-colors">Order Now</button>
+                   </div>
                   </div>
                 )
               })}
@@ -268,6 +270,7 @@ export default function Menu() {
                           </div>
                         </div>
                         <p className="text-sm text-gray-600 mt-1">{item.description}</p>
+                        <button onClick={() => navigate('/product', { state: item })} className="bg-red-600 text-white px-4 py-2 rounded-md mt-2 hover:bg-red-700">Order Now</button>
                       </div>
                     </div>
                   )

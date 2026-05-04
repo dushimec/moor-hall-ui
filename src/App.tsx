@@ -14,6 +14,7 @@ import OurStory from './pages/OurStory'
 import WhyChooseUs from './pages/WhyChooseUs'
 import Terms from './pages/Terms'
 import MenuPage from './pages/Menu'
+import ProductDetails from './pages/ProductDetails'
 import BreakfastPage from './pages/Breakfast'
 import Footer from './components/layout/Footer'
 
@@ -127,6 +128,12 @@ export default function App() {
 						<>
 							<Navbar />
 							<Terms />
+						</>
+					} />
+					<Route path="/product" element={
+						<>
+							<Navbar />
+							<ProductDetails />
 						</>
 					} />
 				</Routes>

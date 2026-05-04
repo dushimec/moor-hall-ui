@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import yoga from '../../assets/welcome.jpg'
 import chief from '../../assets/chief.jpg'
 import pizza from '../../assets/pizza.png'
@@ -7,6 +8,7 @@ import menu from '../../assets/menu.png'
 import resto from '../../assets/resto.png'
 
 const Home: React.FC = () => {
+  const navigate = useNavigate();
   return (
     <div>
     <section className="relative h-full overflow-hidden">
@@ -121,7 +123,7 @@ const Home: React.FC = () => {
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-xl font-bold">20k Rwf</span>
-                  <button className="bg-red-600 text-white px-6 py-2 rounded-md font-bold">Order Now</button>
+                  <button onClick={() => navigate('/product', { state: { title: 'Crispy crust Pizza', description: 'Caramelized onion and feta cheese on a delicious thin crust.', price: '20k Rwf', image: pizza } })} className="bg-red-600 text-white px-6 py-2 rounded-md font-bold">Order Now</button>
                 </div>
               </div>
             </div>
@@ -138,7 +140,7 @@ const Home: React.FC = () => {
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-xl font-bold">30k Rwf</span>
-                  <button className="bg-red-600 text-white py-2 px-6 rounded-md font-bold">Order Now</button>
+                  <button onClick={() => navigate('/product', { state: { title: 'Classic cheese Burger', description: 'Double beef patty, aged cheddar, caramelized onions, house sauce on toasted brioche bun.', price: '30k Rwf', image: burger } })} className="bg-red-600 text-white py-2 px-6 rounded-md font-bold">Order Now</button>
                 </div>
               </div>
             </div>
@@ -155,7 +157,7 @@ const Home: React.FC = () => {
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-xl font-bold">40k Rwf</span>
-                  <button className="bg-red-600 text-white px-6 py-2 rounded-md font-bold">Order Now</button>
+                  <button onClick={() => navigate('/product', { state: { title: 'Spiced Grilled Chicken', description: 'Marinated half chicken, slow-grilled to perfection. Served with crispy fries and garlic dip.', price: '40k Rwf', image: menu } })} className="bg-red-600 text-white px-6 py-2 rounded-md font-bold">Order Now</button>
                 </div>
               </div>
             </div>
@@ -172,7 +174,7 @@ const Home: React.FC = () => {
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-xl font-bold">50k Rwf</span>
-                  <button className="bg-red-600 text-white px-6 py-2 rounded-md font-bold">Order Now</button>
+                  <button onClick={() => navigate('/product', { state: { title: 'Stone-Baked Pizza', description: 'Thin crust, house tomato base, fresh mozzarella baked in stone oven, ready in minutes.', price: '50k Rwf', image: pizza } })} className="bg-red-600 text-white px-6 py-2 rounded-md font-bold">Order Now</button>
                 </div>
               </div>
             </div>
@@ -273,8 +275,8 @@ const Home: React.FC = () => {
                    <div className="bg-white px-6 py-2 rounded-md">
                      <span className="text-xl font-bold text-gray-400 line-through mr-2">70k</span>
                      <span className="text-xl font-bold">50k</span>
-                   </div>
-                  <button className="bg-red-600 text-white px-6 py-2 rounded-md font-bold">Order Now</button>
+                    </div>
+                   <button onClick={() => navigate('/product', { state: { title: 'Burger Offer', description: 'Our Best-selling classic burger at a special one day price. Add fries for just 5K Extra. Limit quantities available', price: '50k Rwf', image: burger } })} className="bg-red-600 text-white px-6 py-2 rounded-md font-bold">Order Now</button>
                 </div>
               </div>
             </div>
@@ -294,7 +296,7 @@ const Home: React.FC = () => {
                     <span className="text-xl font-bold text-gray-400 line-through mr-2">30k</span>
                     <span className="text-xl font-bold">20k</span>
                   </div>
-                  <button className="bg-red-600 text-white px-6 py-2 rounded-md font-bold">Order Now</button>
+                  <button onClick={() => navigate('/product', { state: { title: 'Family Meal Offer', description: 'Feeds 4-6 people. mixed grills 4 sides, soft drinks and a shared dessert- all at one great price.', price: '20k Rwf', image: menu } })} className="bg-red-600 text-white px-6 py-2 rounded-md font-bold">Order Now</button>
                 </div>
               </div>
             </div>
