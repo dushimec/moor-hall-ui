@@ -68,6 +68,9 @@ interface GuestInteractionContextType {
   updateCartQuantity: (itemId: string, quantity: number) => void;
   clearCart: () => void;
   
+  // Quick Checkout (add item and open checkout in one operation)
+  quickCheckout: (item: CartItem) => void;
+  
   // Checkout Modal
   isCheckoutOpen: boolean;
   openCheckout: () => void;
@@ -188,6 +191,22 @@ export const GuestInteractionProvider: React.FC<GuestInteractionProviderProps> =
   
   const clearCart = () => setCart([]);
   
+  // Quick Checkout function - clears cart, adds only this item and opens checkout
+  const quickCheckout = (item: CartItem) => {
+    const newCart = [item]; // Only the selected item, ignore existing cart
+    const subtotal = item.price * item.quantity;
+    const deliveryFee = 0;
+    setCart(newCart);
+    setCheckoutData({
+      ...defaultCheckoutData,
+      items: newCart,
+      subtotal,
+      deliveryFee,
+      total: subtotal + deliveryFee,
+    });
+    setIsCheckoutOpen(true);
+  };
+  
   // Checkout functions
   const openCheckout = () => {
     const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -249,6 +268,7 @@ export const GuestInteractionProvider: React.FC<GuestInteractionProviderProps> =
         removeFromCart,
         updateCartQuantity,
         clearCart,
+        quickCheckout,
         isCheckoutOpen,
         openCheckout,
         closeCheckout,

@@ -1,5 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useGuestInteraction } from '../../context/GuestInteractionContext'
 import yoga from '../../assets/welcome.jpg'
 import chief from '../../assets/chief.jpg'
 import pizza from '../../assets/pizza.png'
@@ -9,6 +10,26 @@ import resto from '../../assets/resto.png'
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
+  const { quickCheckout, openReservation, openCatering } = useGuestInteraction();
+  
+  // Menu items for quick ordering
+  const menuItems = [
+    { id: '1', name: 'Crispy crust Pizza', price: 20000, image: pizza, description: 'Caramelized onion and feta cheese on a delicious thin crust.' },
+    { id: '2', name: 'Classic cheese Burger', price: 30000, image: burger, description: 'Double beef patty, aged cheddar, caramelized onions, house sauce on toasted brioche bun.' },
+    { id: '3', name: 'Spiced Grilled Chicken', price: 40000, image: menu, description: 'Marinated half chicken, slow-grilled to perfection. Served with crispy fries and garlic dip.' },
+    { id: '4', name: 'Stone-Baked Pizza', price: 50000, image: pizza, description: 'Thin crust, house tomato base, fresh mozzarella baked in stone oven, ready in minutes.' },
+  ];
+  
+  const handleQuickOrder = (item: typeof menuItems[0]) => {
+    quickCheckout({
+      id: `cart_${item.id}`,
+      menuItemId: item.id,
+      name: item.name,
+      price: item.price,
+      quantity: 1,
+    });
+  };
+  
   return (
     <div>
     <section className="relative h-full overflow-hidden">
@@ -16,10 +37,11 @@ const Home: React.FC = () => {
       <div 
         className="absolute inset-0" 
         style={{ 
-          backgroundColor: '#e9e9e7',
+          backgroundColor: '#e9e9e3',
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
           backgroundBlendMode: 'soft-light',
-          opacity: 0.95
+          opacity: 0.95,
+          border: '4px solid #D4A017', 
         }}
       />
       
@@ -27,14 +49,18 @@ const Home: React.FC = () => {
       <div 
         className="absolute bottom-0 left-0 w-full h-48"
         style={{
-          background: 'linear-gradient(to right, #0a0a0a, #1a1a1a)',
-          clipPath: 'polygon(0 80%, 100% 0%, 100% 100%, 0 100%)'
+          backgroundImage: `url(${chief})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+             
+          clipPath: 'polygon(0 99%, 100% 0%, 100% 100%, 0 100% )'
         }}
       >
         <div 
           className="absolute inset-0 opacity-30"
           style={{ 
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter2'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter2)'/%3E%3C/svg%3E")`
+           
           }}
         />
        
@@ -67,10 +93,9 @@ const Home: React.FC = () => {
                 
               </div>
               <p className="text-black text-sm md:text-sm mt-4 font-medium">1000+ Happy Customers</p>
-             
+            
             </div>
           </div>
-
 
 
 
@@ -123,7 +148,7 @@ const Home: React.FC = () => {
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-xl font-bold">20k Rwf</span>
-                  <button onClick={() => navigate('/product', { state: { title: 'Crispy crust Pizza', description: 'Caramelized onion and feta cheese on a delicious thin crust.', price: '20k Rwf', image: pizza } })} className="bg-red-600 text-white px-6 py-2 rounded-md font-bold">Order Now</button>
+                  <button onClick={() => handleQuickOrder(menuItems[0])} className="bg-red-600 text-white px-6 py-2 rounded-md font-bold">Order Now</button>
                 </div>
               </div>
             </div>
@@ -140,7 +165,7 @@ const Home: React.FC = () => {
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-xl font-bold">30k Rwf</span>
-                  <button onClick={() => navigate('/product', { state: { title: 'Classic cheese Burger', description: 'Double beef patty, aged cheddar, caramelized onions, house sauce on toasted brioche bun.', price: '30k Rwf', image: burger } })} className="bg-red-600 text-white py-2 px-6 rounded-md font-bold">Order Now</button>
+                  <button onClick={() => handleQuickOrder(menuItems[1])} className="bg-red-600 text-white py-2 px-6 rounded-md font-bold">Order Now</button>
                 </div>
               </div>
             </div>
@@ -157,7 +182,7 @@ const Home: React.FC = () => {
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-xl font-bold">40k Rwf</span>
-                  <button onClick={() => navigate('/product', { state: { title: 'Spiced Grilled Chicken', description: 'Marinated half chicken, slow-grilled to perfection. Served with crispy fries and garlic dip.', price: '40k Rwf', image: menu } })} className="bg-red-600 text-white px-6 py-2 rounded-md font-bold">Order Now</button>
+                  <button onClick={() => handleQuickOrder(menuItems[2])} className="bg-red-600 text-white px-6 py-2 rounded-md font-bold">Order Now</button>
                 </div>
               </div>
             </div>
@@ -174,7 +199,7 @@ const Home: React.FC = () => {
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-xl font-bold">50k Rwf</span>
-                  <button onClick={() => navigate('/product', { state: { title: 'Stone-Baked Pizza', description: 'Thin crust, house tomato base, fresh mozzarella baked in stone oven, ready in minutes.', price: '50k Rwf', image: pizza } })} className="bg-red-600 text-white px-6 py-2 rounded-md font-bold">Order Now</button>
+                  <button onClick={() => handleQuickOrder(menuItems[3])} className="bg-red-600 text-white px-6 py-2 rounded-md font-bold">Order Now</button>
                 </div>
               </div>
             </div>
@@ -200,13 +225,13 @@ const Home: React.FC = () => {
               <div className="p-4 flex-1 flex flex-col justify-between text-center">
                 <div>
                   <h3 className="text-xl font-bold mb-2">Dining In</h3>
-                  <p className="text-sm mb-4">Double beef patty, aged cheddar, caramelized onions, house sauce on toasted brioche bun.</p>
+                  <p className="text-sm mb-4">Experience our full menu in our cozy restaurant setting.</p>
                 </div>
-                 <button onClick={() => navigate('/menu')} className="bg-red-600 text-white w-full py-2 rounded-md font-bold">Book Now</button>
-               </div>
-             </div>
+                 <button onClick={openReservation} className="bg-red-600 text-white w-full py-2 rounded-md font-bold">Book Now</button>
+                </div>
+              </div>
 
-             {/* Table Reservations */}
+              {/* Table Reservations */}
               <div className="bg-gray-200 border-4 border-[#D4A017] rounded-t-lg md:mt-10 flex flex-col h-full">
               <div className="h-40 overflow-hidden">
                 <img src={menu} alt="Table Reservations" className="w-full h-full object-cover" />
@@ -214,10 +239,10 @@ const Home: React.FC = () => {
               <div className="p-4 flex-1 flex flex-col justify-between text-center">
                 <div>
                   <h3 className="text-xl font-bold mb-2">Table Reservations</h3>
-                  <p className="text-sm mb-4">Double beef patty, aged cheddar, caramelized onions, house sauce on toasted brioche bun.</p>
+                  <p className="text-sm mb-4">Reserve your table for a seamless dining experience.</p>
                 </div>
-                 <button onClick={() => navigate('/menu')} className="bg-red-600 text-white w-full py-2 rounded-md font-bold">Order Now</button>
-              </div>
+                 <button onClick={openReservation} className="bg-red-600 text-white w-full py-2 rounded-md font-bold">Reserve</button>
+               </div>
             </div>
 
             {/* Event Catering */}
@@ -228,10 +253,10 @@ const Home: React.FC = () => {
               <div className="p-4 flex-1 flex flex-col justify-between text-center">
                 <div>
                   <h3 className="text-xl font-bold mb-2">Event Catering</h3>
-                  <p className="text-sm mb-4">Double beef patty, aged cheddar, caramelized onions, house sauce on toasted brioche bun.</p>
+                  <p className="text-sm mb-4">Let us cater your special events with our delicious menu options.</p>
                 </div>
-                 <button onClick={() => navigate('/menu')} className="bg-red-600 text-white w-full py-2 rounded-md font-bold">Order Now</button>
-              </div>
+                 <button onClick={openCatering} className="bg-red-600 text-white w-full py-2 rounded-md font-bold">Inquire</button>
+               </div>
             </div>
 
             {/* Private Dining */}
@@ -242,12 +267,12 @@ const Home: React.FC = () => {
               <div className="p-4 flex-1 flex flex-col justify-between text-center">
                 <div>
                   <h3 className="text-xl font-bold mb-2">Private Dining</h3>
-                  <p className="text-sm mb-4">Double beef patty, aged cheddar, caramelized onions, house sauce on toasted brioche bun.</p>
+                  <p className="text-sm mb-4">Exclusive dining experience for special occasions.</p>
                 </div>
-                 <button onClick={() => navigate('/menu')} className="bg-red-600 text-white w-full py-2 rounded-md font-bold">Book Tables</button>
+                 <button onClick={openReservation} className="bg-red-600 text-white w-full py-2 rounded-md font-bold">Book Tables</button>
                </div>
-             </div>
-             </div>
+              </div>
+              </div>
 
           </div>
 
@@ -273,10 +298,10 @@ const Home: React.FC = () => {
                 <p className="text-sm mb-4">Our Best-selling classic burger at a special one day price. Add fries for just 5K Extra. Limit quantities available</p>
                 <div className="flex justify-between items-center">
                    <div className="bg-white px-6 py-2 rounded-md">
-                     <span className="text-xl font-bold text-gray-400 line-through mr-2">70k</span>
-                     <span className="text-xl font-bold">50k</span>
-                    </div>
-                   <button onClick={() => navigate('/product', { state: { title: 'Burger Offer', description: 'Our Best-selling classic burger at a special one day price. Add fries for just 5K Extra. Limit quantities available', price: '50k Rwf', image: burger } })} className="bg-red-600 text-white px-6 py-2 rounded-md font-bold">Order Now</button>
+                      <span className="text-xl font-bold text-gray-400 line-through mr-2">70k</span>
+                      <span className="text-xl font-bold">50k</span>
+                     </div>
+                    <button onClick={() => handleQuickOrder({ id: 'offer1', name: 'Burger Offer', price: 50000, image: burger, description: 'Our Best-selling classic burger at a special one day price. Add fries for just 5K Extra. Limit quantities available' })} className="bg-red-600 text-white px-6 py-2 rounded-md font-bold">Order Now</button>
                 </div>
               </div>
             </div>
@@ -296,7 +321,7 @@ const Home: React.FC = () => {
                     <span className="text-xl font-bold text-gray-400 line-through mr-2">30k</span>
                     <span className="text-xl font-bold">20k</span>
                   </div>
-                  <button onClick={() => navigate('/product', { state: { title: 'Family Meal Offer', description: 'Feeds 4-6 people. mixed grills 4 sides, soft drinks and a shared dessert- all at one great price.', price: '20k Rwf', image: menu } })} className="bg-red-600 text-white px-6 py-2 rounded-md font-bold">Order Now</button>
+                  <button onClick={() => handleQuickOrder({ id: 'offer2', name: 'Family Meal Offer', price: 20000, image: menu, description: 'Feeds 4-6 people. mixed grills 4 sides, soft drinks and a shared dessert- all at one great price.' })} className="bg-red-600 text-white px-6 py-2 rounded-md font-bold">Order Now</button>
                 </div>
               </div>
             </div>

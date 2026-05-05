@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useGuestInteraction } from '../../context/GuestInteractionContext'
 import pizza from '../../assets/pizza.png'
 import burger from '../../assets/burger.png'
 
@@ -52,6 +53,7 @@ const floatY = (d = 4) => ({
 const Hero: React.FC = () => {
   const [index, setIndex] = useState(0)
   const [isScrolling, setIsScrolling] = useState(false)
+  const { quickCheckout, openReservation, openCatering } = useGuestInteraction()
 
   useEffect(() => {
     const t = setInterval(() => {
@@ -131,6 +133,20 @@ const Hero: React.FC = () => {
 
   const current = slides[index]
 
+  const handleOrderNow = () => {
+    // Parse price from string (e.g., "15,000 Rwf") to number
+    const priceStr = current.price.replace(/,/g, '').replace(' Rwf', '');
+    const priceNum = parseInt(priceStr, 10) || 0;
+    
+    quickCheckout({
+      id: `cart_${current.id}_${Date.now()}`,
+      menuItemId: current.id,
+      name: current.title.replace(/\n/g, ' ').trim(),
+      price: priceNum,
+      quantity: 1,
+    });
+  };
+
   return (
     <section id="hero-section" className="relative w-full overflow-hidden cursor-grab active:cursor-grabbing">
       {/* Vertical stripe that animates from up with the image */}
@@ -192,14 +208,27 @@ const Hero: React.FC = () => {
 
            <div className="min-h-[20px] sm:min-h-[50px]">
              <AnimatePresence mode="wait">
-              <motion.div key={current.id + '-cta'} className="mt-4 flex gap-2 items-center" initial="hidden" animate="visible" exit="exit" variants={textVariant(0.44)}>
-                <button className="bg-[#C8961A] hover:bg-red-700 text-black font-bold px-4 md:px-6 py-1 md:py-2 rounded-md shadow-lg transition-all duration-300">Order Now</button>
-                <div className="flex items-center gap-1 text-white font-small md:font-medium">
-                  <svg className="w-4 h-4 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/>
-                  </svg>
-                  Available in Kigali
+              <motion.div key={current.id + '-cta'} className="mt-4 flex flex-col sm:flex-row gap-2 items-center" initial="hidden" animate="visible" exit="exit" variants={textVariant(0.44)}>
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleOrderNow}
+                    className="bg-[#BF2201] hover:bg-[#A01B00] text-white font-bold px-4 md:px-6 py-2 rounded-md shadow-lg transition-all duration-300"
+                  >
+                    Order Now
+                  </button>
+                  <button
+                    onClick={openReservation}
+                    className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-bold px-4 md:px-6 py-2 rounded-md shadow-lg transition-all duration-300"
+                  >
+                    Reserve Table
+                  </button>
                 </div>
+                <button
+                  onClick={openCatering}
+                  className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-medium px-4 py-2 rounded-md transition-all duration-300 text-sm"
+                >
+                  Request Catering
+                </button>
               </motion.div>
              </AnimatePresence>
            </div>

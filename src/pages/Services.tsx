@@ -1,7 +1,20 @@
 import React from 'react'
 import servi from '../assets/servi.png'
+import { useGuestInteraction } from '../context/GuestInteractionContext';
 
 const Services: React.FC = () => {
+  const { quickCheckout } = useGuestInteraction();
+
+  const handleServiceOrder = (serviceId: string, name: string, price: number) => {
+    quickCheckout({
+      id: `cart_${serviceId}_${Date.now()}`,
+      menuItemId: serviceId,
+      name,
+      price,
+      quantity: 1,
+    });
+  };
+
   return (
     <div>
       {/* Services Section with servi.png background */}
@@ -53,11 +66,14 @@ const Services: React.FC = () => {
               <p className="text-center mb-6">
                 Get your favorite meals delivered hot and Fresh to your Doorstep.
               </p>
-              <div className="text-center">
-                <button className="bg-red-600 text-white px-8 py-3 rounded font-bold text-lg">
-                  Order Now
-                </button>
-              </div>
+               <div className="text-center">
+                 <button
+                   onClick={() => handleServiceOrder('fast_delivery', 'Fast Delivery Service', 5000)}
+                   className="bg-red-600 text-white px-8 py-3 rounded font-bold text-lg"
+                 >
+                   Order Now
+                 </button>
+               </div>
             </div>
 
             {/* Coffee Service Card */}
@@ -73,11 +89,14 @@ const Services: React.FC = () => {
               <p className="text-center mb-6">
                 Freshly brewed coffee made with High quality Beans.
               </p>
-              <div className="text-center">
-                <button className="bg-red-600 text-white px-8 py-3 rounded font-bold text-lg">
-                  Order Coffee
-                </button>
-              </div>
+               <div className="text-center">
+                 <button
+                   onClick={() => handleServiceOrder('coffee_service', 'Coffee Service', 3000)}
+                   className="bg-red-600 text-white px-8 py-3 rounded font-bold text-lg"
+                 >
+                   Order Coffee
+                 </button>
+               </div>
             </div>
 
             {/* Bakery service Card */}

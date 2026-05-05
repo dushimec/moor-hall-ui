@@ -17,128 +17,143 @@ import MenuPage from './pages/Menu'
 import ProductDetails from './pages/ProductDetails'
 import BreakfastPage from './pages/Breakfast'
 import Footer from './components/layout/Footer'
+import { AdminProvider } from './context/AdminContext'
+import { GuestInteractionProvider } from './context/GuestInteractionContext'
+import CheckoutModal from './components/guest/CheckoutModal'
+import ReservationModal from './components/guest/ReservationModal'
+import CateringModal from './components/guest/CateringModal'
+import SuccessModal from './components/guest/SuccessModal'
 
 export default function App() {
 	return (
-		<Router>
-			<div className="min-h-screen flex flex-col">
-				<Routes>
-					<Route path="/" element={
-						<>
-							{/* Top area: shared background for navbar and hero */}
-							<header
-								className="relative w-full bg-cover bg-center bg-fixed min-h-screen"
-								style={{ 
-									backgroundImage: `url(${bg})`, 
-									backgroundRepeat: 'no-repeat', 
-									backgroundSize: 'cover',
-									backgroundAttachment: 'fixed',
-									height: '120vh'
-								}}
-							>
-								<div className="">
+		<AdminProvider>
+			<GuestInteractionProvider>
+				<Router>
+					<div className="min-h-screen flex flex-col">
+						<Routes>
+							<Route path="/" element={
+								<>
+									{/* Top area: shared background for navbar and hero */}
+									<header
+										className="relative w-full bg-cover bg-center bg-fixed min-h-screen"
+										style={{ 
+											backgroundImage: `url(${bg})`, 
+											backgroundRepeat: 'no-repeat', 
+											backgroundSize: 'cover',
+											backgroundAttachment: 'fixed',
+											height: '120vh'
+										}}
+									>
+										<div className="">
+											<Navbar />
+											<Hero />
+										</div>
+									</header>
+									<div className="mt-3">
+										<Home />
+									</div>
+								</>
+							} />
+							<Route path="/contacts" element={
+								<>
 									<Navbar />
-									<Hero />
-								</div>
-							</header>
-							<div className="mt-3">
-								<Home />
-							</div>
-						</>
-					} />
-					<Route path="/contacts" element={
-						<>
-							<Navbar />
-							<Contacts />
-						</>
-					} />
-					<Route path="/menu" element={
-						<>
-							<Navbar />
-							<MenuPage />
-						</>
-					} />
-					<Route path="/menu/Breakfast" element={
-						<>
-							<Navbar />
-							<BreakfastPage />
-						</>
-					} />
-					<Route path="/menu/*" element={
-						<>
-							<Navbar />
-							<MenuPage />
-						</>
-					} />
-					<Route path="/contact" element={
-						<>
-							<Navbar />
-							<Contacts />
-						</>
-					} />
-					<Route path="/services" element={
-						<>
-							<Navbar />
-							<Services />
-						</>
-					} />
-					<Route path="/gallery/food" element={
-						<>
-							<Navbar />
-							<Gallery />
-						</>
-					} />
-					<Route path="/gallery/coffee-shop" element={
-						<>
-							<Navbar />
-							<CoffeeShop />
-						</>
-					} />
-					<Route path="/gallery/bakery" element={
-						<>
-							<Navbar />
-							<Bakery />
-						</>
-					} />
-					<Route path="/gallery/catering-events" element={
-						<>
-							<Navbar />
-							<CateringEvents />
-						</>
-					} />
-					<Route path="/about/mission" element={
-						<>
-							<Navbar />
-							<MissionValues />
-						</>
-					} />
-					<Route path="/about/our-story" element={
-						<>
-							<Navbar />
-							<OurStory />
-						</>
-					} />
-					<Route path="/about/why-us" element={
-						<>
-							<Navbar />
-							<WhyChooseUs />
-						</>
-					} />
-					<Route path="/terms" element={
-						<>
-							<Navbar />
-							<Terms />
-						</>
-					} />
-					<Route path="/product" element={
-						<>
-							<Navbar />
-							<ProductDetails />
-						</>
-					} />
-				</Routes>
-				<Footer />
-			</div>
-		</Router>
+									<Contacts />
+								</>
+							} />
+							<Route path="/menu" element={
+								<>
+									<Navbar />
+									<MenuPage />
+								</>
+							} />
+							<Route path="/menu/Breakfast" element={
+								<>
+									<Navbar />
+									<BreakfastPage />
+								</>
+							} />
+							<Route path="/menu/*" element={
+								<>
+									<Navbar />
+									<MenuPage />
+								</>
+							} />
+							<Route path="/contact" element={
+								<>
+									<Navbar />
+									<Contacts />
+								</>
+							} />
+							<Route path="/services" element={
+								<>
+									<Navbar />
+									<Services />
+								</>
+							} />
+							<Route path="/gallery/food" element={
+								<>
+									<Navbar />
+									<Gallery />
+								</>
+							} />
+							<Route path="/gallery/coffee-shop" element={
+								<>
+									<Navbar />
+									<CoffeeShop />
+								</>
+							} />
+							<Route path="/gallery/bakery" element={
+								<>
+									<Navbar />
+									<Bakery />
+								</>
+							} />
+							<Route path="/gallery/catering-events" element={
+								<>
+									<Navbar />
+									<CateringEvents />
+								</>
+							} />
+							<Route path="/about/mission" element={
+								<>
+									<Navbar />
+									<MissionValues />
+								</>
+							} />
+							<Route path="/about/our-story" element={
+								<>
+									<Navbar />
+									<OurStory />
+								</>
+							} />
+							<Route path="/about/why-us" element={
+								<>
+									<Navbar />
+									<WhyChooseUs />
+								</>
+							} />
+							<Route path="/terms" element={
+								<>
+									<Navbar />
+									<Terms />
+								</>
+							} />
+							<Route path="/product" element={
+								<>
+									<Navbar />
+									<ProductDetails />
+								</>
+							} />
+						</Routes>
+						<Footer />
+						{/* Guest Interaction Modals */}
+						<CheckoutModal />
+						<ReservationModal />
+						<CateringModal />
+						<SuccessModal />
+					</div>
+				</Router>
+			</GuestInteractionProvider>
+		</AdminProvider>
 	)
 }
