@@ -102,16 +102,16 @@ const ReservationModal: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="bg-white w-full md:max-w-md md:rounded-2xl md:max-h-[90vh] flex flex-col"
+              className="bg-white w-full max-w-md max-h-[90vh] md:max-h-[85vh] rounded-t-2xl md:rounded-2xl flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
-              <div className="flex items-center justify-between p-4 border-b">
+              <div className="flex items-center justify-between p-4 border-b flex-shrink-0">
                 <h2 className="text-xl font-bold text-gray-900">Reserve a Table</h2>
                 <button
                   onClick={closeReservation}
                   disabled={isSubmitting}
-                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors flex-shrink-0"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -119,8 +119,8 @@ const ReservationModal: React.FC = () => {
                 </button>
               </div>
               
-              {/* Content */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              {/* Content - Scrollable area */}
+              <div className="flex-1 min-h-0 overflow-y-auto p-4 space-y-4">
                 {/* Name */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
@@ -174,7 +174,7 @@ const ReservationModal: React.FC = () => {
                       <button
                         key={time}
                         onClick={() => updateReservationData({ time })}
-                        className={`py-2 px-3 rounded-lg border transition-all ${
+                        className={`py-2 px-2 rounded-lg border transition-all text-sm ${
                           reservationData.time === time
                             ? 'border-[#BF2201] bg-red-50 text-[#BF2201]'
                             : 'border-gray-200 hover:border-gray-300'
@@ -198,12 +198,12 @@ const ReservationModal: React.FC = () => {
                 {/* Guests */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Number of Guests</label>
-                  <div className="grid grid-cols-4 gap-2">
+                  <div className="grid grid-cols-3 gap-2">
                     {guestOptions.map((num) => (
                       <button
                         key={num.toString()}
                         onClick={() => updateReservationData({ guests: num as number })}
-                        className={`py-2 rounded-lg border transition-all ${
+                        className={`py-2 rounded-lg border transition-all text-sm ${
                           reservationData.guests === num
                             ? 'border-[#BF2201] bg-red-50 text-[#BF2201]'
                             : 'border-gray-200 hover:border-gray-300'
@@ -229,7 +229,7 @@ const ReservationModal: React.FC = () => {
               </div>
               
               {/* Footer - Sticky button */}
-              <div className="p-4 border-t bg-white">
+              <div className="p-4 border-t bg-white flex-shrink-0">
                 <button
                   onClick={handleSubmit}
                   disabled={isSubmitting}

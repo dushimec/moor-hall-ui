@@ -22,6 +22,7 @@ import { GuestInteractionProvider } from './context/GuestInteractionContext'
 import CheckoutModal from './components/guest/CheckoutModal'
 import ReservationModal from './components/guest/ReservationModal'
 import CateringModal from './components/guest/CateringModal'
+import EventModal from './components/guest/EventModal'
 import SuccessModal from './components/guest/SuccessModal'
 
 export default function App() {
@@ -150,6 +151,7 @@ export default function App() {
 						<CheckoutModal />
 						<ReservationModal />
 						<CateringModal />
+						<EventModal />
 						<SuccessModal />
 					</div>
 				</Router>

@@ -1,48 +1,46 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGuestInteraction } from '../../context/GuestInteractionContext';
-import { useAdmin } from '../../context/AdminContext';
 
-const CateringModal: React.FC = () => {
+const EventModal: React.FC = () => {
   const { 
-    isCateringOpen, 
-    closeCatering, 
-    cateringData, 
-    updateCateringData,
-    resetCateringData 
+    isEventOpen, 
+    closeEvent,
+    eventData,
+    updateEventData,
+    resetEventData,
+    showSuccess 
   } = useGuestInteraction();
-  
-  const { addCateringRequest } = useAdmin();
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   
   // Reset errors when modal opens
   useEffect(() => {
-    if (isCateringOpen) {
+    if (isEventOpen) {
       setErrors({});
     }
-  }, [isCateringOpen]);
+  }, [isEventOpen]);
   
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
     
-    if (!cateringData.name.trim()) {
+    if (!eventData.name.trim()) {
       newErrors.name = 'Name is required';
     }
-    if (!cateringData.phone.trim()) {
+    if (!eventData.phone.trim()) {
       newErrors.phone = 'Phone number is required';
-    } else if (!/^[\+]?[\d\s\-\(\)]{10,}$/.test(cateringData.phone)) {
+    } else if (!/^[\+]?[\d\s\-\(\)]{10,}$/.test(eventData.phone)) {
       newErrors.phone = 'Please enter a valid phone number';
     }
-    if (!cateringData.eventType.trim()) {
+    if (!eventData.eventType.trim()) {
       newErrors.eventType = 'Event type is required';
     }
-    if (!cateringData.eventLocation.trim()) {
-      newErrors.eventLocation = 'Event location is required';
+    if (!eventData.eventDate) {
+      newErrors.eventDate = 'Event date is required';
     }
-    if (!cateringData.preferredDate) {
-      newErrors.preferredDate = 'Preferred date is required';
+    if (!eventData.guests || eventData.guests < 1) {
+      newErrors.guests = 'Number of guests is required';
     }
     
     setErrors(newErrors);
@@ -57,49 +55,35 @@ const CateringModal: React.FC = () => {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    // Create catering request
-      addCateringRequest({
-        name: cateringData.name,
-        phone: cateringData.phone,
-        eventType: cateringData.eventType,
-        location: cateringData.eventLocation,
-        guests: cateringData.guests,
-        date: cateringData.preferredDate,
-        time: '12:00',
-        notes: cateringData.notes,
-        status: 'pending',
-      });
+    // Log the event booking (in a real app, this would be sent to the backend)
+    console.log('Event booking submitted:', eventData);
     
-    resetCateringData();
+    resetEventData();
     setIsSubmitting(false);
-    closeCatering();
+    closeEvent();
     
     // Show success modal
-    const { showSuccess } = useGuestInteraction();
     showSuccess({
-      type: 'catering',
-      title: 'Request received 🎉',
+      type: 'event',
+      title: 'Event booking received 🎉',
       message: "Our team will contact you via WhatsApp",
     });
   };
   
-  // Event type suggestions
+  // Event type options
   const eventTypes = [
-    'Wedding',
-    'Corporate Event',
     'Birthday Party',
+    'Wedding',
     'Anniversary',
+    'Corporate Event',
     'Graduation',
-    'Conference',
+    'Baby Shower',
     'Other',
   ];
   
-  // Guest number options
-  const guestOptions = [20, 50, 100, 150, 200, 250, 300, 500];
-  
   return (
     <AnimatePresence>
-      {isCateringOpen && (
+      {isEventOpen && (
         <>
           {/* Backdrop */}
           <motion.div
@@ -107,7 +91,7 @@ const CateringModal: React.FC = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end md:items-center justify-center"
-            onClick={!isSubmitting ? closeCatering : undefined}
+            onClick={!isSubmitting ? closeEvent : undefined}
           >
             {/* Modal - Bottom sheet on mobile, centered on desktop */}
             <motion.div
@@ -120,9 +104,9 @@ const CateringModal: React.FC = () => {
             >
               {/* Header */}
               <div className="flex items-center justify-between p-4 border-b flex-shrink-0">
-                <h2 className="text-xl font-bold text-gray-900">Request Catering</h2>
+                <h2 className="text-xl font-bold text-gray-900">Book an Event</h2>
                 <button
-                  onClick={closeCatering}
+                  onClick={closeEvent}
                   disabled={isSubmitting}
                   className="p-2 hover:bg-gray-100 rounded-lg transition-colors flex-shrink-0"
                 >
@@ -139,8 +123,8 @@ const CateringModal: React.FC = () => {
                   <label className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
                   <input
                     type="text"
-                    value={cateringData.name}
-                    onChange={(e) => updateCateringData({ name: e.target.value })}
+                    value={eventData.name}
+                    onChange={(e) => updateEventData({ name: e.target.value })}
                     className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#BF2201] focus:border-transparent ${
                       errors.name ? 'border-red-500' : 'border-gray-300'
                     }`}
@@ -154,8 +138,8 @@ const CateringModal: React.FC = () => {
                   <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number (WhatsApp) *</label>
                   <input
                     type="tel"
-                    value={cateringData.phone}
-                    onChange={(e) => updateCateringData({ phone: e.target.value })}
+                    value={eventData.phone}
+                    onChange={(e) => updateEventData({ phone: e.target.value })}
                     className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#BF2201] focus:border-transparent ${
                       errors.phone ? 'border-red-500' : 'border-gray-300'
                     }`}
@@ -171,9 +155,9 @@ const CateringModal: React.FC = () => {
                     {eventTypes.map((type) => (
                       <button
                         key={type}
-                        onClick={() => updateCateringData({ eventType: type })}
+                        onClick={() => updateEventData({ eventType: type })}
                         className={`py-2 px-2 rounded-lg border text-sm transition-all ${
-                          cateringData.eventType === type
+                          eventData.eventType === type
                             ? 'border-[#BF2201] bg-red-50 text-[#BF2201]'
                             : 'border-gray-200 hover:border-gray-300'
                         }`}
@@ -185,64 +169,57 @@ const CateringModal: React.FC = () => {
                   {errors.eventType && <p className="text-red-500 text-sm mt-1">{errors.eventType}</p>}
                 </div>
                 
-                {/* Event Location */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Event Location *</label>
-                  <input
-                    type="text"
-                    value={cateringData.eventLocation}
-                    onChange={(e) => updateCateringData({ eventLocation: e.target.value })}
-                    className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#BF2201] focus:border-transparent ${
-                      errors.eventLocation ? 'border-red-500' : 'border-gray-300'
-                    }`}
-                    placeholder="Venue address or location"
-                  />
-                  {errors.eventLocation && <p className="text-red-500 text-sm mt-1">{errors.eventLocation}</p>}
-                </div>
-                
                 {/* Number of Guests */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Number of Guests</label>
-                  <div className="grid grid-cols-4 gap-2">
-                    {guestOptions.map((num) => (
-                      <button
-                        key={num}
-                        onClick={() => updateCateringData({ guests: num })}
-                        className={`py-2 rounded-lg border transition-all text-sm ${
-                          cateringData.guests === num
-                            ? 'border-[#BF2201] bg-red-50 text-[#BF2201]'
-                            : 'border-gray-200 hover:border-gray-300'
-                        }`}
-                      >
-                        {num}
-                      </button>
-                    ))}
-                  </div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Number of Guests *</label>
+                  <input
+                    type="number"
+                    value={eventData.guests || ''}
+                    onChange={(e) => updateEventData({ guests: parseInt(e.target.value) || 0 })}
+                    min="1"
+                    className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#BF2201] focus:border-transparent ${
+                      errors.guests ? 'border-red-500' : 'border-gray-300'
+                    }`}
+                    placeholder="Enter number of guests"
+                  />
+                  {errors.guests && <p className="text-red-500 text-sm mt-1">{errors.guests}</p>}
                 </div>
                 
-                {/* Preferred Date */}
+                {/* Event Date */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Preferred Date *</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Event Date *</label>
                   <input
                     type="date"
-                    value={cateringData.preferredDate}
-                    onChange={(e) => updateCateringData({ preferredDate: e.target.value })}
+                    value={eventData.eventDate}
+                    onChange={(e) => updateEventData({ eventDate: e.target.value })}
                     min={new Date().toISOString().split('T')[0]}
                     className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#BF2201] focus:border-transparent ${
-                      errors.preferredDate ? 'border-red-500' : 'border-gray-300'
+                      errors.eventDate ? 'border-red-500' : 'border-gray-300'
                     }`}
                   />
-                  {errors.preferredDate && <p className="text-red-500 text-sm mt-1">{errors.preferredDate}</p>}
+                  {errors.eventDate && <p className="text-red-500 text-sm mt-1">{errors.eventDate}</p>}
+                </div>
+                
+                {/* Event Location */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Event Location</label>
+                  <input
+                    type="text"
+                    value={eventData.eventLocation}
+                    onChange={(e) => updateEventData({ eventLocation: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#BF2201] focus:border-transparent"
+                    placeholder="Venue address or location"
+                  />
                 </div>
                 
                 {/* Notes */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Additional Notes (Optional)</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Additional Details (Optional)</label>
                   <textarea
-                    value={cateringData.notes}
-                    onChange={(e) => updateCateringData({ notes: e.target.value })}
+                    value={eventData.notes}
+                    onChange={(e) => updateEventData({ notes: e.target.value })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#BF2201] focus:border-transparent"
-                    placeholder="Menu preferences, budget, or other requirements..."
+                    placeholder="Special requirements, menu preferences, or other details..."
                     rows={3}
                   />
                 </div>
@@ -258,13 +235,13 @@ const CateringModal: React.FC = () => {
                   {isSubmitting ? (
                     <>
                       <svg className="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth={4} />
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                       </svg>
                       Processing...
                     </>
                   ) : (
-                    'Send Request'
+                    'Book Event'
                   )}
                 </button>
               </div>
@@ -276,4 +253,4 @@ const CateringModal: React.FC = () => {
   );
 };
 
-export default CateringModal;
+export default EventModal;

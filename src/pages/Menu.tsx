@@ -8,6 +8,7 @@ import chiefImg from '../assets/chief.jpg'
 import pizzaImg from '../assets/pizza.png'
 import burgerImg from '../assets/burger.png'
 import foodImg from '../assets/food.png'
+import { useGuestInteraction } from '../context/GuestInteractionContext';
 
 // Photographic banner backgrounds (Unsplash hotlinks)
 const FOOD_BG = 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80'
@@ -62,14 +63,34 @@ const MENU_ITEMS: Record<Exclude<CategoryId, 'all'>, Item[]> = {
 }
 
 export default function Menu() {
-// offsets (in px) to stagger the specials cards vertically
+ // offsets (in px) to stagger the specials cards vertically
   const CARD_OFFSETS = [-40, 60, -40, 60]
 
-// connector line heights based on padding + offset
+ // connector line heights based on padding + offset
   const CONNECTOR_HEIGHTS = CARD_OFFSETS.map(offset => 100 + offset)
 
   const [selectedCategory, setSelectedCategory] = useState<CategoryId>('all')
   const navigate = useNavigate()
+  const { quickCheckout } = useGuestInteraction();
+
+  // Parse price string like "20k Rwf" to number
+  const parsePrice = (priceStr: string) => {
+    const clean = priceStr.replace('k', '').replace(' Rwf', '').trim();
+    const num = parseFloat(clean);
+    return priceStr.includes('k') ? num * 1000 : num;
+  };
+
+  const handleOrderNow = (item: Item, e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent card navigation
+    const price = parsePrice(item.price);
+    quickCheckout({
+      id: `cart_${item.id}_${Date.now()}`,
+      menuItemId: item.id,
+      name: item.title,
+      price,
+      quantity: 1,
+    });
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -216,12 +237,18 @@ export default function Menu() {
                      </div>
                    </div>
 
-                   <h4 className="text-center font-semibold">{item.title}</h4>
-                   <p className="text-sm text-gray-600 text-center mt-5">{item.description}</p>
+                    <h4 className="text-center font-semibold">{item.title}</h4>
+                    <p className="text-sm text-gray-600 text-center mt-5">{item.description}</p>
 
-                    <div className="mt-auto pt-4 px-4 flex flex-col items-cente gap-3">
-                      <div className="text-lg font-bold text-gray-800">Price {item.price}</div>
-                    </div>
+                     <div className="mt-auto pt-4 px-4 flex flex-col items-cente gap-3">
+                       <div className="text-lg font-bold text-gray-800">Price {item.price}</div>
+                       <button
+                         onClick={(e) => handleOrderNow(item, e)}
+                         className="bg-red-600 text-white px-4 py-2 rounded-md font-bold hover:bg-red-700 transition"
+                       >
+                         Order Now
+                       </button>
+                     </div>
                   </div>
                 )
               })}
@@ -254,21 +281,29 @@ export default function Menu() {
                 {items.map(item => {
                   const priceParts = item.price.split(' ')
                   return (
-                    <div key={item.id} onClick={() => navigate('/product', { state: item })} className="bg-white border rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow flex cursor-pointer">
-                      <div className="w-16 h-16 rounded-md overflow-hidden mr-4 flex-shrink-0">
-                        <img src={item.image || menuImg} alt={item.title} className="w-full h-full object-cover" />
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex justify-between items-start">
-                          <h3 className="font-semibold text-lg">{item.title}</h3>
-                          <div className="font-bold text-gray-800 text-lg text-right">
-                            <div>{priceParts[0]}</div>
-                            <div className="text-sm">{priceParts[1]}</div>
-                          </div>
-                        </div>
-                        <p className="text-sm text-gray-600 mt-1">{item.description}</p>
-                      </div>
-                    </div>
+                 <div key={item.id} onClick={() => navigate('/product', { state: item })} className="bg-white border rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow flex cursor-pointer">
+                       <div className="w-16 h-16 rounded-md overflow-hidden mr-4 flex-shrink-0">
+                         <img src={item.image || menuImg} alt={item.title} className="w-full h-full object-cover" />
+                       </div>
+                       <div className="flex-1">
+                         <div className="flex justify-between items-start">
+                           <h3 className="font-semibold text-lg">{item.title}</h3>
+                           <div className="font-bold text-gray-800 text-lg text-right">
+                             <div>{priceParts[0]}</div>
+                             <div className="text-sm">{priceParts[1]}</div>
+                           </div>
+                         </div>
+                         <p className="text-sm text-gray-600 mt-1">{item.description}</p>
+                       </div>
+                       <div className="ml-4 flex items-center">
+                         <button
+                           onClick={(e) => handleOrderNow(item, e)}
+                           className="bg-red-600 text-white px-3 py-1 rounded-md text-sm font-bold hover:bg-red-700 transition"
+                         >
+                           Order Now
+                         </button>
+                       </div>
+                     </div>
                   )
                 })}
               </div>

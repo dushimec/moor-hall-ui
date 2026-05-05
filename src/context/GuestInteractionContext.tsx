@@ -53,8 +53,18 @@ interface CateringFormData {
   notes: string;
 }
 
+interface EventFormData {
+  name: string;
+  phone: string;
+  eventType: string;
+  guests: number;
+  eventDate: string;
+  eventLocation: string;
+  notes: string;
+}
+
 interface SuccessModalData {
-  type: 'order' | 'reservation' | 'catering';
+  type: 'order' | 'reservation' | 'catering' | 'event';
   orderId?: string;
   title: string;
   message: string;
@@ -94,6 +104,14 @@ interface GuestInteractionContextType {
   cateringData: CateringFormData;
   updateCateringData: (data: Partial<CateringFormData>) => void;
   resetCateringData: () => void;
+  
+  // Event Modal
+  isEventOpen: boolean;
+  openEvent: () => void;
+  closeEvent: () => void;
+  eventData: EventFormData;
+  updateEventData: (data: Partial<EventFormData>) => void;
+  resetEventData: () => void;
   
   // Success Modal
   isSuccessOpen: boolean;
@@ -136,6 +154,16 @@ const defaultCateringData: CateringFormData = {
   notes: '',
 };
 
+const defaultEventData: EventFormData = {
+  name: '',
+  phone: '',
+  eventType: '',
+  guests: 50,
+  eventDate: '',
+  eventLocation: '',
+  notes: '',
+};
+
 const GuestInteractionContext = createContext<GuestInteractionContextType | undefined>(undefined);
 
 export const useGuestInteraction = () => {
@@ -165,6 +193,10 @@ export const GuestInteractionProvider: React.FC<GuestInteractionProviderProps> =
   // Catering state
   const [isCateringOpen, setIsCateringOpen] = useState(false);
   const [cateringData, setCateringData] = useState<CateringFormData>(defaultCateringData);
+  
+  // Event state
+  const [isEventOpen, setIsEventOpen] = useState(false);
+  const [eventData, setEventData] = useState<EventFormData>(defaultEventData);
   
   // Success state
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
@@ -249,7 +281,17 @@ export const GuestInteractionProvider: React.FC<GuestInteractionProviderProps> =
   
   const resetCateringData = () => setCateringData(defaultCateringData);
   
-  // Success functions
+  // Event functions
+  const openEvent = () => setIsEventOpen(true);
+  const closeEvent = () => setIsEventOpen(false);
+  
+  const updateEventData = (data: Partial<EventFormData>) => {
+    setEventData(prev => ({ ...prev, ...data }));
+  };
+  
+  const resetEventData = () => setEventData(defaultEventData);
+  
+  // Success modal functions
   const showSuccess = (data: SuccessModalData) => {
     setSuccessData(data);
     setIsSuccessOpen(true);
@@ -263,30 +305,43 @@ export const GuestInteractionProvider: React.FC<GuestInteractionProviderProps> =
   return (
     <GuestInteractionContext.Provider
       value={{
+        // Cart
         cart,
         addToCart,
         removeFromCart,
         updateCartQuantity,
         clearCart,
+        // Quick checkout
         quickCheckout,
+        // Checkout
         isCheckoutOpen,
         openCheckout,
         closeCheckout,
         checkoutData,
         updateCheckoutData,
         resetCheckoutData,
+        // Reservation
         isReservationOpen,
         openReservation,
         closeReservation,
         reservationData,
         updateReservationData,
         resetReservationData,
+        // Catering
         isCateringOpen,
         openCatering,
         closeCatering,
         cateringData,
         updateCateringData,
         resetCateringData,
+        // Event
+        isEventOpen,
+        openEvent,
+        closeEvent,
+        eventData,
+        updateEventData,
+        resetEventData,
+        // Success
         isSuccessOpen,
         successData,
         showSuccess,
