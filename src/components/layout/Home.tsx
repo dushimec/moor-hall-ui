@@ -266,8 +266,8 @@ const Home: React.FC = () => {
               </div>
               <div className="p-4 flex-1 flex flex-col justify-between text-center">
                 <div>
-                  <h3 className="text-xl font-bold mb-2">Book Now</h3>
-                  <p className="text-sm mb-4">Double beef patty, aged cheddar, caramelized onions, house sauce on toasted brioche bun.</p>
+                  <h3 className="text-xl font-bold mb-2">Private Dining</h3>
+                  <p className="text-sm mb-4">Exclusive dining experience for special occasions.</p>
                 </div>
                  <button onClick={openReservation} className="bg-red-600 text-white w-full py-2 rounded-md font-bold">Book Tables</button>
                </div>
