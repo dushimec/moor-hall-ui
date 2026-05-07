@@ -28,8 +28,8 @@ const CATEGORIES: { id: CategoryId; label: string }[] = [
 ]
 
 const SPECIALS_ITEMS: Item[] = [
-  { id: 's1', title: 'Crispy Crust Pizza', price: '20k Rwf', image: pizzaImg, description: 'Freshly baked with premium cheese, tomatoes, and ghyievwhscjcvueghvy.vcvghscvgveg, vchvdhvc gev, vgevsjhvcghwevty, aromatic herbs' },
-  { id: 's2', title: 'Grilled Salmon', price: '25k Rwf', image: foodImg, description: 'Atlantic salmon grilled to perfection with lemon butter sauce' },
+  { id: 's1', title: 'Crispy Crust Pizza', price: '20k Rwf', image: pizzaImg, description: 'Freshly baked with premium cheese, tomatoes, and aromatic herbs' },
+  { id: 's2', title: 'Grilled Salmon', price: '25k Rwf', image: chiefImg, description: 'Atlantic salmon grilled to perfection with lemon butter sauce' },
   { id: 's3', title: 'Premium Burger', price: '18k Rwf', image: burgerImg, description: 'Juicy beef patty with cheddar, lettuce, tomato, and special sauce' },
   { id: 's4', title: 'Chocolate Lava Cake', price: '12k Rwf', image: foodImg, description: 'Warm chocolate cake with a molten center, served with vanilla ice cream' }
 ]
@@ -57,8 +57,8 @@ const SAMPLE_ITEMS: Record<Exclude<CategoryId, 'all'>, Item[]> = {
 }
 
 const MENU_ITEMS: Record<Exclude<CategoryId, 'all'>, Item[]> = {
-  cocktails: SAMPLE_ITEMS.drinks.map(item => ({ ...item, description: 'A refreshing drink to complement your meal.', image: foodImg })),
-  dinner: SAMPLE_ITEMS.mains.map(item => ({ ...item, description: 'Enjoy this hearty dinner dish.', image: burgerImg })),
+  cocktails: SAMPLE_ITEMS.drinks.map(item => ({ ...item, description: 'A refreshing drink to complement your meal.', image: chiefImg })),
+  dinner: SAMPLE_ITEMS.mains.map(item => ({ ...item, description: 'Enjoy this hearty dinner dish.', image: chiefImg })),
   food: [...SAMPLE_ITEMS.appetizers, ...SAMPLE_ITEMS.mains, ...SAMPLE_ITEMS.desserts].map(item => ({ ...item, description: 'A tasty food item from our menu.', image: foodImg }))
 }
 
