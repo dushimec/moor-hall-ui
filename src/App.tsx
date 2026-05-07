@@ -114,6 +114,30 @@ export default function App() {
 										<MenuPage />
 									</>
 								} />
+								<Route path="/menu/Lunch" element={
+									<>
+										<Navbar />
+										<LunchPage />
+									</>
+								} />
+								<Route path="/menu/Dinner" element={
+									<>	
+										<Navbar />
+										<DinnerPage />
+									</>
+								} />
+								<Route path="/menu/Cocktail" element={
+									<>	
+										<Navbar />
+										<CocktailPage />
+									</>
+								} />
+								<Route path="/menu/Coffee-Beverage" element={
+									<>	
+										<Navbar />
+										<CoffeeBeveragePage />
+									</>
+								} />
 								<Route path="/contact" element={
 									<>
 										<Navbar />
@@ -182,7 +206,7 @@ export default function App() {
 								} />
 								
 								/* Admin Routes - No Navbar or Footer for admin area */
-								<Route path="/admin/login" element={
+							   <Route path="/admin/login" element={
 									<>
 										<AdminLogin />
 									</>
