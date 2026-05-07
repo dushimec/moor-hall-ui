@@ -68,6 +68,9 @@ interface SuccessModalData {
   orderId?: string;
   title: string;
   message: string;
+  momoNumber?: string;
+  bankAccount?: string;
+  showPaymentInfo?: boolean;
 }
 
 interface GuestInteractionContextType {

@@ -11,7 +11,8 @@ const CheckoutModal: React.FC = () => {
     checkoutData, 
     updateCheckoutData,
     resetCheckoutData,
-    clearCart 
+    clearCart,
+    showSuccess
   } = useGuestInteraction();
   
   const { addOrder } = useAdmin();
@@ -60,6 +61,25 @@ const CheckoutModal: React.FC = () => {
   
   const handleBack = () => {
     setCurrentStep(prev => Math.max(prev - 1, 1));
+  };
+
+  const updateItemQuantity = (itemId: string, newQuantity: number) => {
+    if (newQuantity < 1) return;
+    
+    const updatedItems = checkoutData.items.map(item => 
+      item.id === itemId ? { ...item, quantity: newQuantity } : item
+    ).filter(item => item.quantity > 0);
+    
+    const subtotal = updatedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const deliveryFee = checkoutData.orderType === 'delivery' ? 2000 : 0;
+    const total = subtotal + deliveryFee;
+    
+    updateCheckoutData({ 
+      items: updatedItems,
+      subtotal,
+      deliveryFee,
+      total
+    });
   };
   
   const handleSubmit = async () => {
@@ -117,12 +137,19 @@ const CheckoutModal: React.FC = () => {
     closeCheckout();
     
     // Show success modal
-    const { showSuccess } = useGuestInteraction();
+    const isPartial = checkoutData.paymentMethod === 'partial' as PaymentMethod;
+    const amountToPay = isPartial ? checkoutData.total / 2 : checkoutData.total;
+    const paymentMessage = isPartial 
+      ? `Your package will start being prepared. Please pay the half of your full payment (${amountToPay.toLocaleString()} RWF). We'll send updates via WhatsApp.`
+      : `Your package will start being prepared. Please pay ${amountToPay.toLocaleString()} RWF. We'll send updates via WhatsApp.`;
     showSuccess({
       type: 'order',
       orderId: orderNumber,
       title: 'Order received 🎉',
-      message: "We'll send updates via WhatsApp",
+      message: paymentMessage,
+      momoNumber: '*182*8*1*123456#',
+      bankAccount: 'BK-00123456789012',
+      showPaymentInfo: true,
     });
   };
   
@@ -159,7 +186,7 @@ const CheckoutModal: React.FC = () => {
             </div>
           </div>
         );
-      
+       
       case 2:
         return (
           <div className="space-y-4">
@@ -190,7 +217,7 @@ const CheckoutModal: React.FC = () => {
             </div>
           </div>
         );
-      
+       
       case 3:
         return (
           <div className="space-y-4">
@@ -223,7 +250,7 @@ const CheckoutModal: React.FC = () => {
             </div>
           </div>
         );
-      
+       
       case 4:
         return checkoutData.orderType === 'delivery' ? (
           <div className="space-y-4">
@@ -266,7 +293,7 @@ const CheckoutModal: React.FC = () => {
             </div>
           </div>
         );
-      
+       
       case 5:
         return (
           <div className="space-y-4">
@@ -283,14 +310,13 @@ const CheckoutModal: React.FC = () => {
             </div>
           </div>
         );
-      
+       
       case 6:
         return (
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-gray-900">Payment Method</h3>
             <div className="space-y-3">
               {[
-                { value: 'pay_on_delivery', label: 'Pay on Delivery', icon: '💵' },
                 { value: 'partial', label: 'Partial Payment', icon: '💳' },
                 { value: 'paid', label: 'Full Payment', icon: '✅' },
               ].map((option) => (
@@ -312,36 +338,80 @@ const CheckoutModal: React.FC = () => {
             </div>
           </div>
         );
-      
+       
       case 7:
         return (
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-gray-900">Confirm Order</h3>
-            <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+            <div className="max-h-80 overflow-y-auto space-y-3">
+              {checkoutData.items.map((item) => {
+                // Determine image based on item name
+                let itemImage = '/food.png';
+                const nameLower = item.name.toLowerCase();
+                if (nameLower.includes('pizza')) itemImage = '/pizza.png';
+                else if (nameLower.includes('burger')) itemImage = '/burger.png';
+                else if (nameLower.includes('salmon') || nameLower.includes('fish') || nameLower.includes('tilapia')) itemImage = '/food.png';
+                else if (nameLower.includes('cake') || nameLower.includes('dessert')) itemImage = '/food.png';
+                else if (nameLower.includes('brochette') || nameLower.includes('meat')) itemImage = '/burger.png';
+                else if (nameLower.includes('ugali') || nameLower.includes('mandazi') || nameLower.includes('sambaza')) itemImage = '/food.png';
+                
+                return (
+                  <div key={item.id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                    <img
+                      src={itemImage}
+                      alt={item.name}
+                      className="w-16 h-16 rounded-lg object-cover bg-white p-1"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = '/food.png';
+                      }}
+                    />
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-gray-900 truncate">{item.name}</p>
+                      <p className="text-sm text-gray-500">{item.notes || 'No special notes'}</p>
+                      <p className="text-sm font-semibold text-[#BF2201]">{item.price.toLocaleString()} RWF each</p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => updateItemQuantity(item.id, item.quantity - 1)}
+                        className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center transition-colors"
+                        disabled={isSubmitting}
+                      >
+                        <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                        </svg>
+                      </button>
+                      <span className="w-8 text-center font-semibold text-gray-900">{item.quantity}</span>
+                      <button
+                        onClick={() => updateItemQuantity(item.id, item.quantity + 1)}
+                        className="w-8 h-8 rounded-full bg-[#BF2201] hover:bg-[#A01B00] flex items-center justify-center transition-colors"
+                        disabled={isSubmitting}
+                      >
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="border-t pt-3 space-y-2">
               <div className="flex justify-between">
-                <span className="text-gray-600">Order Type</span>
-                <span className="font-medium capitalize">{checkoutData.orderType}</span>
+                <span className="text-gray-600">Subtotal</span>
+                <span className="font-medium">{checkoutData.subtotal.toLocaleString()} RWF</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Items</span>
-                <span className="font-medium">{checkoutData.items.length} items</span>
+                <span className="text-gray-600">Delivery Fee</span>
+                <span className="font-medium">{checkoutData.deliveryFee.toLocaleString()} RWF</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Payment</span>
-                <span className="font-medium capitalize">
-                  {checkoutData.paymentMethod.replace('_', ' ')}
-                </span>
-              </div>
-              <div className="border-t pt-2">
-                <div className="flex justify-between text-lg font-bold">
-                  <span>Total</span>
-                  <span className="text-[#BF2201]">{checkoutData.total.toLocaleString()} RWF</span>
-                </div>
+              <div className="flex justify-between text-lg font-bold border-t pt-2">
+                <span>Total</span>
+                <span className="text-[#BF2201]">{checkoutData.total.toLocaleString()} RWF</span>
               </div>
             </div>
           </div>
         );
-      
+       
       default:
         return null;
     }
