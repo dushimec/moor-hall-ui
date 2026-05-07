@@ -95,7 +95,7 @@ export default function Menu() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <header className="relative w-full h-56 md:h-80 bg-cover bg-center" style={{ backgroundImage: `url(${menuImg})` }}>
+      <header className="relative w-full h-56 md:h-80 bg-cover bg-center pt-32" style={{ backgroundImage: `url(${menuImg})` }}>
         <div className="absolute inset-0 bg-black/45 flex items-center justify-center">
           <div className="text-center">
             <h1 className="text-white text-3xl md:text-5xl font-extrabold drop-shadow">Menu</h1>

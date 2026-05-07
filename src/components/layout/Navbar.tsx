@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import logo from '../../assets/logomoor.png'
 
 type SubItem = { label: string; href?: string }
@@ -56,6 +56,16 @@ const NavItem: React.FC<{ label: string; items?: SubItem[] }> = ({ label, items 
               className="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg ring-1 ring-white ring-opacity-5 z-40"
             >
               <ul className="py-2">
+                <li>
+                  <Link
+                    to={targetPath}
+                    className="block px-4 py-2 text-sm text-black hover:bg-gray-50 font-semibold"
+                    onClick={() => setOpen(false)}
+                  >
+                    View all {label}
+                  </Link>
+                </li>
+                <li className="border-t border-gray-200"></li>
                 {items!.map((it, idx) => (
                   <li key={idx}>
                     <Link
@@ -196,8 +206,7 @@ const Navbar: React.FC = () => {
         { label: 'Lunch', href: '/menu/Lunch' }, 
         { label: 'Dinner', href: '/menu/Dinner' },
         { label: 'Coffee & Beverages', href: '/menu/Coffee & Beverages' },
-        { label: 'Bakery items', href: '/menu/Bakery items' },
-        { label: 'Special meals', href: '/menu/Special meals' },
+        { label: 'Cocktail', href: '/menu/Cocktail' },
       ] 
     },
     { 
