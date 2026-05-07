@@ -32,7 +32,7 @@ const DinnerPage = () => {
             <div className="space-y-4">
               <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200">
                 <div className="flex items-center space-x-4">
-                  <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 shadow-md">
+                  <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 shadow-md">
                     <img src={lunchImg} alt="Grilled Salmon" className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1">
@@ -45,7 +45,7 @@ const DinnerPage = () => {
 
               <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200">
                 <div className="flex items-center space-x-4">
-                  <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 shadow-md">
+                  <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 shadow-md">
                     <img src={chiefImg} alt="Filet Mignon" className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1">
@@ -58,7 +58,7 @@ const DinnerPage = () => {
 
               <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200">
                 <div className="flex items-center space-x-4">
-                  <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 shadow-md">
+                  <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 shadow-md">
                     <img src={lunch1Img} alt="Lobster Ravioli" className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1">
@@ -71,7 +71,7 @@ const DinnerPage = () => {
 
               <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200">
                 <div className="flex items-center space-x-4">
-                  <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 shadow-md">
+                  <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 shadow-md">
                     <img src={betweenImg} alt="Duck Confit" className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1">
@@ -87,7 +87,7 @@ const DinnerPage = () => {
             <div className="space-y-4">
               <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200">
                 <div className="flex items-center space-x-4">
-                  <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 shadow-md">
+                  <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 shadow-md">
                     <img src={lunchImg} alt="Seafood Paella" className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1">
@@ -100,7 +100,7 @@ const DinnerPage = () => {
 
               <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200">
                 <div className="flex items-center space-x-4">
-                  <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 shadow-md">
+                  <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 shadow-md">
                     <img src={chiefImg} alt="Beef Wellington" className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1">
@@ -113,7 +113,7 @@ const DinnerPage = () => {
 
               <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200">
                 <div className="flex items-center space-x-4">
-                  <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 shadow-md">
+                  <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 shadow-md">
                     <img src={welcomeImg} alt="Truffle Risotto" className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1">
@@ -126,7 +126,7 @@ const DinnerPage = () => {
 
               <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200">
                 <div className="flex items-center space-x-4">
-                  <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 shadow-md">
+                  <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 shadow-md">
                     <img src={betweenImg} alt="Chocolate Soufflé" className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1">
