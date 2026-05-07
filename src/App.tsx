@@ -16,6 +16,10 @@ import Terms from './pages/Terms'
 import MenuPage from './pages/Menu'
 import ProductDetails from './pages/ProductDetails'
 import BreakfastPage from './pages/Breakfast'
+import LunchPage from './pages/Lunch'
+import DinnerPage from './pages/Dinner'
+import CocktailPage from './pages/Cocktail'
+import CoffeeBeveragePage from './pages/CoffeeBeverage'
 import Footer from './components/layout/Footer'
 
 export default function App() {
@@ -62,6 +66,30 @@ export default function App() {
 						<>
 							<Navbar />
 							<BreakfastPage />
+						</>
+					} />
+					<Route path="/menu/Lunch" element={
+						<>
+							<Navbar />
+							<LunchPage />
+						</>
+					} />
+					<Route path="/menu/Dinner" element={
+						<>
+							<Navbar />
+							<DinnerPage />
+						</>
+					} />
+					<Route path="/menu/Cocktail" element={
+						<>
+							<Navbar />
+							<CocktailPage />
+						</>
+					} />
+					<Route path="/menu/Coffee & Beverages" element={
+						<>
+							<Navbar />
+							<CoffeeBeveragePage />
 						</>
 					} />
 					<Route path="/menu/*" element={
