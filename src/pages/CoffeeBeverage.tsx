@@ -12,7 +12,7 @@ const CoffeeBeveragePage = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
 
-      <main className="flex-1 bg-gray-50 pt-30">
+      <main className="flex-1 bg-gray-50 pt-32">
         <div className="max-w-7xl mx-auto mb-10">
           {/* Title */}
           <div className="text-center mb-12">
@@ -36,7 +36,7 @@ const CoffeeBeveragePage = () => {
             <div className="space-y-4">
               <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200">
                 <div className="flex items-center space-x-4">
-                  <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 shadow-md">
+                  <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 shadow-md">
                     <img src={break1Img} alt="Espresso" className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1">
@@ -49,7 +49,7 @@ const CoffeeBeveragePage = () => {
 
               <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200">
                 <div className="flex items-center space-x-4">
-                  <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 shadow-md">
+                  <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 shadow-md">
                     <img src={break2Img} alt="Cappuccino" className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1">
@@ -62,7 +62,7 @@ const CoffeeBeveragePage = () => {
 
               <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200">
                 <div className="flex items-center space-x-4">
-                  <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 shadow-md">
+                  <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 shadow-md">
                     <img src={break1Img} alt="Latte" className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1">
@@ -75,7 +75,7 @@ const CoffeeBeveragePage = () => {
 
               <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200">
                 <div className="flex items-center space-x-4">
-                  <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 shadow-md">
+                  <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 shadow-md">
                     <img src={break2Img} alt="Americano" className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1">
@@ -91,7 +91,7 @@ const CoffeeBeveragePage = () => {
             <div className="space-y-4">
               <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200">
                 <div className="flex items-center space-x-4">
-                  <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 shadow-md">
+                  <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 shadow-md">
                     <img src={welcomeImg} alt="Green Tea" className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1">
@@ -104,7 +104,7 @@ const CoffeeBeveragePage = () => {
 
               <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200">
                 <div className="flex items-center space-x-4">
-                  <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 shadow-md">
+                  <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 shadow-md">
                     <img src={chiefImg} alt="Hot Chocolate" className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1">
@@ -117,7 +117,7 @@ const CoffeeBeveragePage = () => {
 
               <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200">
                 <div className="flex items-center space-x-4">
-                  <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 shadow-md">
+                  <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 shadow-md">
                     <img src={cokImg} alt="Fresh Juice" className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1">
@@ -130,7 +130,7 @@ const CoffeeBeveragePage = () => {
 
               <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200">
                 <div className="flex items-center space-x-4">
-                  <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 shadow-md">
+                  <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 shadow-md">
                     <img src={cok1Img} alt="Smoothie" className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1">
