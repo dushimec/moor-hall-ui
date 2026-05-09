@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { apiService } from '../../services/api';
+import { RegisterData } from '../../types/index';
 
 const AdminRegister: React.FC = () => {
   const [name, setName] = useState('');
@@ -13,13 +15,13 @@ const AdminRegister: React.FC = () => {
 
   // Redirect to dashboard if already logged in
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem('isAdminLoggedIn') === 'true';
-    if (isAuthenticated) {
+    const token = localStorage.getItem('adminToken');
+    if (token) {
       navigate('/admin/dashboard');
     }
   }, [navigate]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setSuccess('');
@@ -44,19 +46,33 @@ const AdminRegister: React.FC = () => {
       return;
     }
     
-    // Simulate API call
-    setTimeout(() => {
-      // Store admin user in localStorage
-      const adminUser = {
-        name,
+    try {
+      // Prepare registration data
+      const registerData: RegisterData = {
+        fullName: name,
         email,
-        role: 'admin',
-        createdAt: new Date().toISOString()
+        password,
+        phoneNumber: undefined // Optional field
+      };
+      
+      // Call actual API
+      const response = await apiService.register(registerData);
+      
+      // Store admin user in localStorage
+      // API response format: { data: { admin: {...}, token: '...' } }
+      const { admin, token } = response.data.data;
+      
+      const adminUser = {
+        id: admin.id,
+        name: admin.fullName,
+        email: admin.email,
+        role: admin.role,
+        createdAt: admin.createdAt
       };
       
       localStorage.setItem('adminUser', JSON.stringify(adminUser));
       localStorage.setItem('isAdminLoggedIn', 'true');
-      localStorage.setItem('adminToken', 'jwt-token-' + Date.now());
+      localStorage.setItem('adminToken', token);
       
       setSuccess('Registration successful! Redirecting to dashboard...');
       setLoading(false);
@@ -65,7 +81,10 @@ const AdminRegister: React.FC = () => {
       setTimeout(() => {
         navigate('/admin/dashboard');
       }, 1500);
-    }, 1500);
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Registration failed. Please try again.');
+      setLoading(false);
+    }
   };
 
   return (

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Link, useLocation, Outlet } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation, Outlet, useNavigate } from 'react-router-dom';
 import logo from "../../../assets/logomoor.png";
+import { apiService } from '../../../services/api';
 
 interface NavItem {
   name: string;
@@ -64,6 +65,13 @@ const MenuIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   </svg>
 );
 
+const TagIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+    <line x1="7" y1="7" x2="7.01" y2="7"/>
+  </svg>
+);
+
 const DocumentTextIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -113,7 +121,26 @@ const Bars3Icon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
 
 const AdminLayout: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [adminUser, setAdminUser] = useState<any>(null);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  // Load admin user from localStorage
+  useEffect(() => {
+    const user = localStorage.getItem('adminUser');
+    if (user) {
+      setAdminUser(JSON.parse(user));
+    }
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await apiService.logout();
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+    navigate('/admin/login');
+  };
 
   const navItems: NavItem[] = [
     { name: 'Dashboard', href: '/admin/dashboard', icon: HomeIcon },
@@ -123,6 +150,7 @@ const AdminLayout: React.FC = () => {
     { name: 'Reservations', href: '/admin/reservations', icon: CalendarIcon },
     { name: 'Catering', href: '/admin/catering', icon: UsersIcon },
     { name: 'Menu', href: '/admin/menu', icon: MenuIcon },
+    { name: 'Categories', href: '/admin/categories', icon: TagIcon },
     { name: 'Content', href: '/admin/content', icon: DocumentTextIcon },
     { name: 'Reports', href: '/admin/reports', icon: ChartBarIcon },
     { name: 'Settings', href: '/admin/settings', icon: CogIcon },
@@ -210,17 +238,27 @@ const AdminLayout: React.FC = () => {
             </div>
 
             <div className="flex items-center space-x-4">
-              <button className="relative text-gray-500 hover:text-gray-700 p-2">
-                <BellIcon className="h-6 w-6" />
-                <span className="absolute top-1 right-1 h-2 w-2 bg-red-500 rounded-full" />
-              </button>
-              <div className="flex items-center space-x-3">
-                <div className="h-8 w-8 rounded-full bg-[#BF2201] flex items-center justify-center">
-                  <span className="text-white text-sm font-medium">AD</span>
-                </div>
-                <span className="hidden sm:block text-sm font-medium text-gray-700">Admin</span>
-              </div>
-            </div>
+               <button className="relative text-gray-500 hover:text-gray-700 p-2">
+                 <BellIcon className="h-6 w-6" />
+                 <span className="absolute top-1 right-1 h-2 w-2 bg-red-500 rounded-full" />
+               </button>
+               <div className="flex items-center space-x-3">
+                 <div className="h-8 w-8 rounded-full bg-[#BF2201] flex items-center justify-center">
+                   <span className="text-white text-sm font-medium">
+                     {adminUser?.name?.charAt(0) || 'A'}
+                   </span>
+                 </div>
+                 <span className="hidden sm:block text-sm font-medium text-gray-700">
+                   {adminUser?.name || 'Admin'}
+                 </span>
+               </div>
+               <button
+                 onClick={handleLogout}
+                 className="text-sm text-gray-500 hover:text-gray-700"
+               >
+                 Logout
+               </button>
+             </div>
           </div>
         </header>
 

@@ -32,6 +32,7 @@ import {
   Customer,
   OrderItem,
 } from '../types';
+import apiService from '../services/api';
 
 interface AdminContextType {
   // Orders
@@ -68,6 +69,8 @@ interface AdminContextType {
   updateMenuItem: (id: string, updates: Partial<MenuItem>) => void;
   deleteMenuItem: (id: string) => void;
   addMenuCategory: (category: Omit<MenuCategory, 'id' | 'createdAt'>) => void;
+  updateCategory: (id: string, updates: Partial<MenuCategory>) => void;
+  deleteCategory: (id: string) => void;
 
   // Notifications
   notifications: NotificationLog[];
@@ -108,7 +111,7 @@ interface AdminProviderProps {
 }
 
 export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
-  // Initialize state with sample data
+  // Initialize state
   const [orders, setOrders] = useState<Order[]>([]);
   const [payments, setPayments] = useState<Payment[]>([]);
   const [paymentRecords, setPaymentRecords] = useState<PaymentRecord[]>([]);
@@ -121,35 +124,60 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
   const [adminActions, setAdminActions] = useState<AdminActionLog[]>([]);
   const [contentBlocks, setContentBlocks] = useState<ContentBlock[]>([]);
   const [promoBanners, setPromoBanners] = useState<PromoBanner[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Load data from localStorage on mount
+  // Load data from API on mount
   useEffect(() => {
-    const loadData = () => {
-      const savedOrders = localStorage.getItem('mh_orders');
-      const savedPayments = localStorage.getItem('mh_payments');
-      const savedReservations = localStorage.getItem('mh_reservations');
-      const savedCatering = localStorage.getItem('mh_catering');
-      const savedMenuItems = localStorage.getItem('mh_menuItems');
-      const savedCategories = localStorage.getItem('mh_menuCategories');
-      const savedNotifications = localStorage.getItem('mh_notifications');
-      const savedStatusHistory = localStorage.getItem('mh_statusHistory');
-      const savedContentBlocks = localStorage.getItem('mh_contentBlocks');
-      const savedPromoBanners = localStorage.getItem('mh_promoBanners');
-      const savedPaymentRecords = localStorage.getItem('mh_paymentRecords');
-      const savedAdminActions = localStorage.getItem('mh_adminActions');
+    const loadData = async () => {
+      try {
+        // Load from localStorage first for immediate display
+        const savedOrders = localStorage.getItem('mh_orders');
+        const savedPayments = localStorage.getItem('mh_payments');
+        const savedReservations = localStorage.getItem('mh_reservations');
+        const savedCatering = localStorage.getItem('mh_catering');
+        const savedMenuItems = localStorage.getItem('mh_menuItems');
+        const savedCategories = localStorage.getItem('mh_menuCategories');
+        const savedNotifications = localStorage.getItem('mh_notifications');
+        const savedStatusHistory = localStorage.getItem('mh_statusHistory');
+        const savedContentBlocks = localStorage.getItem('mh_contentBlocks');
+        const savedPromoBanners = localStorage.getItem('mh_promoBanners');
+        const savedPaymentRecords = localStorage.getItem('mh_paymentRecords');
+        const savedAdminActions = localStorage.getItem('mh_adminActions');
 
-      if (savedOrders) setOrders(JSON.parse(savedOrders));
-      if (savedPayments) setPayments(JSON.parse(savedPayments));
-      if (savedReservations) setReservations(JSON.parse(savedReservations));
-      if (savedCatering) setCateringRequests(JSON.parse(savedCatering));
-      if (savedMenuItems) setMenuItems(JSON.parse(savedMenuItems));
-      if (savedCategories) setMenuCategories(JSON.parse(savedCategories));
-      if (savedNotifications) setNotifications(JSON.parse(savedNotifications));
-      if (savedStatusHistory) setStatusHistory(JSON.parse(savedStatusHistory));
-      if (savedContentBlocks) setContentBlocks(JSON.parse(savedContentBlocks));
-      if (savedPromoBanners) setPromoBanners(JSON.parse(savedPromoBanners));
-      if (savedPaymentRecords) setPaymentRecords(JSON.parse(savedPaymentRecords));
-      if (savedAdminActions) setAdminActions(JSON.parse(savedAdminActions));
+        if (savedOrders) setOrders(JSON.parse(savedOrders));
+        if (savedPayments) setPayments(JSON.parse(savedPayments));
+        if (savedReservations) setReservations(JSON.parse(savedReservations));
+        if (savedCatering) setCateringRequests(JSON.parse(savedCatering));
+        if (savedMenuItems) setMenuItems(JSON.parse(savedMenuItems));
+        if (savedCategories) setMenuCategories(JSON.parse(savedCategories));
+        if (savedNotifications) setNotifications(JSON.parse(savedNotifications));
+        if (savedStatusHistory) setStatusHistory(JSON.parse(savedStatusHistory));
+        if (savedContentBlocks) setContentBlocks(JSON.parse(savedContentBlocks));
+        if (savedPromoBanners) setPromoBanners(JSON.parse(savedPromoBanners));
+        if (savedPaymentRecords) setPaymentRecords(JSON.parse(savedPaymentRecords));
+        if (savedAdminActions) setAdminActions(JSON.parse(savedAdminActions));
+
+        // Fetch from API
+        const [menuItemsRes, categoriesRes, reservationsRes] = await Promise.all([
+          apiService.getMenuItems({ includeUnavailable: true }).catch(() => ({ data: { data: [] } })),
+          apiService.getCategories({ includeInactive: true }).catch(() => ({ data: { data: [] } })),
+          apiService.getReservations().catch(() => ({ data: { data: [] } })),
+        ]);
+
+        if (menuItemsRes.data?.data) {
+          setMenuItems(menuItemsRes.data.data);
+        }
+        if (categoriesRes.data?.data) {
+          setMenuCategories(categoriesRes.data.data);
+        }
+        if (reservationsRes.data?.data) {
+          setReservations(reservationsRes.data.data);
+        }
+      } catch (error) {
+        console.error('Error loading data:', error);
+      } finally {
+        setLoading(false);
+      }
     };
     loadData();
   }, []);
@@ -465,82 +493,124 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
   }, [saveToStorage, addNotification, logAdminAction]);
 
   // Menu
-  const addMenuItem = useCallback((itemData: Omit<MenuItem, 'id' | 'createdAt' | 'updatedAt'>) => {
-    const newItem: MenuItem = {
-      ...itemData,
-      id: `item_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
-    setMenuItems(prev => {
-      const updated = [...prev, newItem];
-      saveToStorage('mh_menuItems', updated);
-      return updated;
-    });
-    logAdminAction({
-      action: 'Add Menu Item',
-      entityType: 'MenuItem',
-      entityId: newItem.id,
-      details: `Added ${newItem.name} to ${menuCategories.find(c => c.id === newItem.categoryId)?.name}`,
-    });
-  }, [menuItems, menuCategories, saveToStorage, logAdminAction]);
-
-  const updateMenuItem = useCallback((id: string, updates: Partial<MenuItem>) => {
-    setMenuItems(prev => {
-      const updated = prev.map(item => {
-        if (item.id === id) {
-          const updatedItem = {
-            ...item,
-            ...updates,
-            updatedAt: new Date().toISOString(),
-          };
-          logAdminAction({
-            action: 'Update Menu Item',
-            entityType: 'MenuItem',
-            entityId: id,
-            details: `Updated ${item.name}`,
-          });
-          return updatedItem;
-        }
-        return item;
+  const addMenuItem = useCallback(async (itemData: Omit<MenuItem, 'id' | 'createdAt' | 'updatedAt'>) => {
+    try {
+      const response = await apiService.createMenuItem(itemData);
+      const newItem = response.data.data;
+      setMenuItems(prev => {
+        const updated = [...prev, newItem];
+        saveToStorage('mh_menuItems', updated);
+        return updated;
       });
-      saveToStorage('mh_menuItems', updated);
-      return updated;
-    });
-  }, [saveToStorage, logAdminAction]);
-
-  const deleteMenuItem = useCallback((id: string) => {
-    setMenuItems(prev => {
-      const updated = prev.filter(item => item.id !== id);
-      saveToStorage('mh_menuItems', updated);
       logAdminAction({
-        action: 'Delete Menu Item',
+        action: 'Add Menu Item',
+        entityType: 'MenuItem',
+        entityId: newItem.id,
+        details: `Added ${newItem.name} to ${menuCategories.find(c => c.id === newItem.categoryId)?.name}`,
+      });
+    } catch (error) {
+      console.error('Error adding menu item:', error);
+    }
+  }, [menuCategories, saveToStorage, logAdminAction]);
+
+  const updateMenuItem = useCallback(async (id: string, updates: Partial<MenuItem>) => {
+    try {
+      const response = await apiService.updateMenuItem(parseInt(id), updates);
+      const updatedItem = response.data.data;
+      setMenuItems(prev => {
+        const updated = prev.map(item => item.id === id ? updatedItem : item);
+        saveToStorage('mh_menuItems', updated);
+        return updated;
+      });
+      logAdminAction({
+        action: 'Update Menu Item',
         entityType: 'MenuItem',
         entityId: id,
-        details: 'Menu item deleted',
+        details: `Updated ${updatedItem.name}`,
       });
-      return updated;
-    });
+    } catch (error) {
+      console.error('Error updating menu item:', error);
+    }
   }, [saveToStorage, logAdminAction]);
 
-  const addMenuCategory = useCallback((categoryData: Omit<MenuCategory, 'id' | 'createdAt'>) => {
-    const newCategory: MenuCategory = {
-      ...categoryData,
-      id: `cat_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      createdAt: new Date().toISOString(),
-    };
-    setMenuCategories(prev => {
-      const updated = [...prev, newCategory];
-      saveToStorage('mh_menuCategories', updated);
-      return updated;
-    });
-    logAdminAction({
-      action: 'Add Menu Category',
-      entityType: 'MenuCategory',
-      entityId: newCategory.id,
-      details: `Added category: ${newCategory.name}`,
-    });
+  const deleteMenuItem = useCallback(async (id: string) => {
+    try {
+      await apiService.deleteMenuItem(parseInt(id));
+      setMenuItems(prev => {
+        const updated = prev.filter(item => item.id !== id);
+        saveToStorage('mh_menuItems', updated);
+        logAdminAction({
+          action: 'Delete Menu Item',
+          entityType: 'MenuItem',
+          entityId: id,
+          details: 'Menu item deleted',
+        });
+        return updated;
+      });
+    } catch (error) {
+      console.error('Error deleting menu item:', error);
+    }
   }, [saveToStorage, logAdminAction]);
+
+  const addMenuCategory = useCallback(async (categoryData: Omit<MenuCategory, 'id' | 'createdAt'>) => {
+    try {
+      const response = await apiService.createCategory(categoryData);
+      const newCategory = response.data.data;
+      setMenuCategories(prev => {
+        const updated = [...prev, newCategory];
+        saveToStorage('mh_menuCategories', updated);
+        return updated;
+      });
+      logAdminAction({
+        action: 'Add Menu Category',
+        entityType: 'MenuCategory',
+        entityId: newCategory.id,
+        details: `Added category: ${newCategory.name}`,
+      });
+    } catch (error) {
+      console.error('Error adding category:', error);
+    }
+  }, [saveToStorage, logAdminAction]);
+
+  const updateCategory = useCallback(async (id: string, updates: Partial<MenuCategory>) => {
+    try {
+      const response = await apiService.updateCategory(parseInt(id), updates);
+      const updatedCategory = response.data.data;
+      setMenuCategories(prev => {
+        const updated = prev.map(category => category.id === id ? updatedCategory : category);
+        saveToStorage('mh_menuCategories', updated);
+        return updated;
+      });
+      logAdminAction({
+        action: 'Update Menu Category',
+        entityType: 'MenuCategory',
+        entityId: id,
+        details: `Updated category: ${updates.name || id}`,
+      });
+    } catch (error) {
+      console.error('Error updating category:', error);
+    }
+  }, [saveToStorage, logAdminAction]);
+
+  const deleteCategory = useCallback(async (id: string) => {
+    try {
+      const category = menuCategories.find(c => c.id === id);
+      await apiService.deleteCategory(parseInt(id));
+      setMenuCategories(prev => {
+        const updated = prev.filter(c => c.id !== id);
+        saveToStorage('mh_menuCategories', updated);
+        logAdminAction({
+          action: 'Delete Menu Category',
+          entityType: 'MenuCategory',
+          entityId: id,
+          details: `Deleted category: ${category?.name || id}`,
+        });
+        return updated;
+      });
+    } catch (error) {
+      console.error('Error deleting category:', error);
+    }
+  }, [menuCategories, saveToStorage, logAdminAction]);
 
   // Content Management
   const updateContentBlock = useCallback((id: string, updates: Partial<ContentBlock>) => {
@@ -749,6 +819,8 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
         updateMenuItem,
         deleteMenuItem,
         addMenuCategory,
+        updateCategory,
+        deleteCategory,
         notifications,
         addNotification,
         resendNotification,

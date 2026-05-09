@@ -54,7 +54,7 @@ const Home: React.FC = () => {
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
              
-          clipPath: 'polygon(0 99%, 100% 0%, 100% 100%, 0 100% )'
+          clipPath: 'polygon(0 98%, 140% 0%, 100% 100%, 0 100% )'
         }}
       >
         <div 
