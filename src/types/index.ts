@@ -212,25 +212,77 @@ export interface ContentBlock {
   id: ID;
   key: string;
   title?: string;
-  content?: string;
-  image?: string;
-  link?: string;
-  isActive: boolean;
-  order: number;
-  createdAt: string;
+  body?: string;
+  dataJson?: any;
+  isPublished: boolean;
   updatedAt: string;
+  createdAt: string;
 }
 
 export interface PromoBanner {
   id: ID;
   title: string;
-  subtitle?: string;
-  image: string;
-  link?: string;
-  isActive: boolean;
+  description?: string;
+  imageUrl?: string;
   startDate?: string;
   endDate?: string;
-  order: number;
+  isActive: boolean;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface ServiceItem {
+  id: ID;
+  name: string;
+  slug: string;
+  type: 'CATERING' | 'EVENT' | 'OTHER';
+  description?: string;
+  imageUrl?: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface SiteSetting {
+  id: ID;
+  key: string;
+  value: string;
+  description?: string;
+  updatedAt: string;
+}
+
+// Auth types
+export interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
+export interface RegisterData {
+  fullName: string;
+  email: string;
+  password: string;
+  phoneNumber?: string;
+}
+
+export interface AuthResponse {
+  admin: {
+    id: number;
+    fullName: string;
+    email: string;
+    phoneNumber: string | null;
+    role: string;
+    status: string;
+    lastLoginAt: Date | null;
+    createdAt: Date;
+    updatedAt: Date;
+  };
+  tokens: {
+    accessToken: string;
+    refreshToken: string;
+  };
+}
+
+export interface RefreshTokenResponse {
+  accessToken: string;
+  refreshToken: string;
 }
