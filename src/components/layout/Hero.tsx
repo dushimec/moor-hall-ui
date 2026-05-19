@@ -179,18 +179,18 @@ const Hero: React.FC = () => {
           </svg>
         </button>
          {/* Left: text content (staggered from up) */}
-         <div className="text-left h-full flex flex-col justify-center py-6 min-h-[320px] sm:min-h-[420px]">
-           <div className="min-h-[10px] sm:min-h-17">
+         <div className="text-left h-full flex flex-col justify-center py-6 min-h-80 sm:min-h-105">
+           <div className="min-h-2.5 sm:min-h-17">
              <AnimatePresence mode="wait">
                <motion.div key={current.id + '-badge'} initial="hidden" animate="visible" exit="exit" variants={badgeVariant(0)}>
-                 <div className="inline-block  border font-bold border-white text-black text-sm md:text-lg rounded-md px-4 md:px-6 py-1 md:py-2 mb-2 sm:mb-6">
+                 <div className="inline-block  border font-bold border-white text-white text-sm md:text-lg rounded-md px-4 md:px-6 py-1 md:py-2 mb-2 sm:mb-6">
                    {`PURCHASE TODAY, JUST ${current.price}`}
                  </div>
                </motion.div>
              </AnimatePresence>
            </div>
 
-           <div className="min-h-[80px] sm:min-h-[180px]">
+           <div className="min-h-20 sm:min-h-45">
              <AnimatePresence mode="wait">
              <motion.h1 key={current.id + '-title'} className="text-2xl md:text-4xl lg:text-5xl font-bold text-white uppercase leading-tight drop-shadow-lg whitespace-pre-line" initial="hidden" animate="visible" exit="exit" variants={textVariant(0.12)}>
                {current.title}
@@ -198,7 +198,7 @@ const Hero: React.FC = () => {
              </AnimatePresence>
            </div>
 
-           <div className="min-h-[40px] sm:min-h-[80px]">
+           <div className="min-h-10 sm:min-h-20">
              <AnimatePresence mode="wait">
                <motion.p key={current.id + '-desc'} className="mt-2 text-white/90 max-w-lg text-base md:text-lg font-semibold" initial="hidden" animate="visible" exit="exit" variants={textVariant(0.28)}>
                  {current.description}
@@ -206,7 +206,7 @@ const Hero: React.FC = () => {
              </AnimatePresence>
            </div>
 
-           <div className="min-h-[20px] sm:min-h-[50px]">
+           <div className="min-h-5 sm:min-h-12.5">
              <AnimatePresence mode="wait">
               <motion.div key={current.id + '-cta'} className="mt-4 flex flex-col sm:flex-row gap-2 items-center" initial="hidden" animate="visible" exit="exit" variants={textVariant(0.44)}>
                 <div className="flex gap-2">
@@ -235,20 +235,20 @@ const Hero: React.FC = () => {
          </div>
 
          {/* Right: animated food images */}
-            <div className="flex items-center justify-center relative h-full py-6 sm:py-8 min-h-[320px] sm:min-h-[420px]">
+            <div className="flex items-center justify-center relative h-full py-6 sm:py-8 min-h-80 sm:min-h-105">
            {/* floating element (small) */}
            <AnimatePresence></AnimatePresence>
            <motion.div className="absolute -top-4 -right-6 sm:-top-6 sm:-right-10 md:-right-16" animate={{ y: [0, -8, 0], rotate: [0, 3, 0] }} transition={{ duration: 3, repeat: Infinity, repeatType: 'loop', ease: 'easeInOut' }}>
              <img src={burger} alt="burger" className="w-10 h-10 mt-6 sm:mt-10 md:w-14 md:h-14 rounded-full object-cover shadow-lg border-2 border-white/20" />
            </motion.div>
 
-           <div className="relative w-full min-h-[240px] sm:min-h-[320px] md:min-h-[450px] flex items-center justify-center overflow-visible">
+           <div className="relative w-full min-h-60 sm:min-h-80 md:min-h-112.5 flex items-center justify-center overflow-visible">
              <AnimatePresence mode="wait">
                <motion.div key={current.id + '-img'} className="w-full h-full flex items-center justify-center" variants={imageVariant} initial="hidden" animate="visible" exit="exit">
                  <motion.img 
                    src={current.image} 
                    alt={current.title} 
-                   className="max-w-full max-h-[280px] sm:max-h-[380px] md:max-h-[500px] w-auto h-auto object-contain drop-shadow-2xl" 
+                   className="max-w-full max-h-70 sm:max-h-95 md:max-h-125 w-auto h-auto object-contain drop-shadow-2xl" 
                    initial={{ scale: 1 }} 
                    animate={{ scale: 1.02 }} 
                    transition={{ duration: 12, ease: 'easeInOut' }} 
