@@ -8,6 +8,9 @@ import chiefImg from '../assets/chief.jpg'
 import pizzaImg from '../assets/pizza.png'
 import burgerImg from '../assets/burger.png'
 import foodImg from '../assets/food.png'
+import lunchImg from '../assets/lunch.jpg'
+import breakImg from '../assets/break1.jpg'
+import cokImg from '../assets/cok.jpg'
 import { useGuestInteraction } from '../context/GuestInteractionContext';
 
 // Photographic banner backgrounds (Unsplash hotlinks)
@@ -29,9 +32,9 @@ const CATEGORIES: { id: CategoryId; label: string }[] = [
 
 const SPECIALS_ITEMS: Item[] = [
   { id: 's1', title: 'Crispy Crust Pizza', price: '20k Rwf', image: pizzaImg, description: 'Freshly baked with premium cheese, tomatoes, and aromatic herbs' },
-  { id: 's2', title: 'Grilled Salmon', price: '25k Rwf', image: chiefImg, description: 'Atlantic salmon grilled to perfection with lemon butter sauce' },
+  { id: 's2', title: 'Grilled Salmon', price: '25k Rwf', image: lunchImg, description: 'Atlantic salmon grilled to perfection with lemon butter sauce' },
   { id: 's3', title: 'Premium Burger', price: '18k Rwf', image: burgerImg, description: 'Juicy beef patty with cheddar, lettuce, tomato, and special sauce' },
-  { id: 's4', title: 'Chocolate Lava Cake', price: '12k Rwf', image: foodImg, description: 'Warm chocolate cake with a molten center, served with vanilla ice cream' }
+  { id: 's4', title: 'Chocolate Lava Cake', price: '12k Rwf', image: breakImg, description: 'Warm chocolate cake with a molten center, served with vanilla ice cream' }
 ]
 
 const SAMPLE_ITEMS: Record<Exclude<CategoryId, 'all'>, Item[]> = {
@@ -57,8 +60,8 @@ const SAMPLE_ITEMS: Record<Exclude<CategoryId, 'all'>, Item[]> = {
 }
 
 const MENU_ITEMS: Record<Exclude<CategoryId, 'all'>, Item[]> = {
-  cocktails: SAMPLE_ITEMS.drinks.map(item => ({ ...item, description: 'A refreshing drink to complement your meal.', image: chiefImg })),
-  dinner: SAMPLE_ITEMS.mains.map(item => ({ ...item, description: 'Enjoy this hearty dinner dish.', image: chiefImg })),
+  cocktails: SAMPLE_ITEMS.drinks.map(item => ({ ...item, description: 'A refreshing drink to complement your meal.', image: cokImg })),
+  dinner: SAMPLE_ITEMS.mains.map(item => ({ ...item, description: 'Enjoy this hearty dinner dish.', image: lunchImg })),
   food: [...SAMPLE_ITEMS.appetizers, ...SAMPLE_ITEMS.mains, ...SAMPLE_ITEMS.desserts].map(item => ({ ...item, description: 'A tasty food item from our menu.', image: foodImg }))
 }
 
@@ -137,8 +140,13 @@ export default function Menu() {
 
                   <div className="space-y-3">
                     {[...SAMPLE_ITEMS.appetizers, ...SAMPLE_ITEMS.mains]
+                      .map(item => ({
+                        ...item,
+                        image: foodImg,
+                        description: 'A tasty food item from our menu.'
+                      }))
                       .map(item => (
-                        <div key={item.id} className="bg-white border rounded-md mb-3 p-3">
+                        <div key={item.id} onClick={() => navigate('/product', { state: item })} className="bg-white border rounded-md mb-3 p-3 cursor-pointer hover:shadow-md transition-shadow">
                           <div className="flex items-center">
                             <div className="text-sm font-medium text-gray-800 w-40">{item.title}</div>
                             <div className="flex-1 mx-4">
@@ -168,8 +176,13 @@ export default function Menu() {
 
                   <div className="space-y-3">
                     {SAMPLE_ITEMS.drinks
+                      .map(item => ({
+                        ...item,
+                        image: cokImg,
+                        description: 'A refreshing drink to complement your meal.'
+                      }))
                       .map(item => (
-                        <div key={item.id} className="bg-white border rounded-md mb-3 p-3">
+                        <div key={item.id} onClick={() => navigate('/product', { state: item })} className="bg-white border rounded-md mb-3 p-3 cursor-pointer hover:shadow-md transition-shadow">
                           <div className="flex items-center">
                             <div className="text-sm font-medium text-gray-800 w-40">{item.title}</div>
                             <div className="flex-1 mx-4">
@@ -187,7 +200,6 @@ export default function Menu() {
                   </div>
                 </div>
                 </div>
-
                 {/* Between image removed from centered container to render full-bleed below */}
             </section>
           </div>

@@ -16,7 +16,7 @@ const Services: React.FC = () => {
   };
 
   return (
-    <div>
+    <div >
       {/* Services Section with servi.png background */}
        <section className="relative py-12 sm:py-16 min-h-screen overflow-hidden">
         {/* Background image cover */}
@@ -30,7 +30,7 @@ const Services: React.FC = () => {
           }}
         />
         
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative z-10 max-w-7xl mx-auto mt-20 px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             
             {/* Restaurant Dining Card */}
@@ -127,7 +127,7 @@ const Services: React.FC = () => {
               <div className="h-32 sm:h-48 rounded-xl overflow-hidden mb-4 sm:mb-6">
                 <img 
                   src="https://images.unsplash.com/photo-1555244162-803834f70033?w=600" 
-                  alt="Outside Catering" 
+                  alt="Outside Catering"
                   className="w-full h-full object-cover"
                 />
               </div>

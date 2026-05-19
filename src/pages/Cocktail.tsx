@@ -1,9 +1,32 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/layout/Navbar'
+import { useGuestInteraction } from '../context/GuestInteractionContext'
 import cokImg from '../assets/cok.jpg'
 import cok1Img from '../assets/cok1.jpg'
 
 const CocktailPage = () => {
+  const navigate = useNavigate()
+  const { quickCheckout } = useGuestInteraction()
+
+  const parsePrice = (priceStr: string) => {
+    const clean = priceStr.replace('k', '').replace(' Rwf', '').trim()
+    const num = parseFloat(clean)
+    return priceStr.includes('k') ? num * 1000 : num
+  }
+
+  const handleOrderNow = (item: any, e: React.MouseEvent) => {
+    e.stopPropagation()
+    const price = parsePrice(item.price)
+    quickCheckout({
+      id: `cart_${item.id}_${Date.now()}`,
+      menuItemId: item.id,
+      name: item.title,
+      price,
+      quantity: 1,
+    })
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -61,10 +84,10 @@ const CocktailPage = () => {
           </div>
 
           {/* Menu Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-6">
             {/* Mojito */}
-            <div className="bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200">
-              <div className="flex items-center space-x-4">
+            <div onClick={() => navigate('/product', { state: { id: 'c1', title: 'Classic Mojito', price: '8k Rwf', image: cokImg, description: 'Fresh mint, lime, sugar, and premium rum' } })} className="bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200 cursor-pointer flex">
+              <div className="flex items-center space-x-4 flex-1">
                 <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 shadow-md border-2 border-gray-100">
                   <img src={cokImg} alt="Mojito" className="w-full h-full object-cover" />
                 </div>
@@ -74,11 +97,14 @@ const CocktailPage = () => {
                 </div>
                 <div className="text-lg font-bold text-orange-600">8k Rwf</div>
               </div>
+              <div className="ml-4 flex items-center">
+                <button onClick={(e) => handleOrderNow({ id: 'c1', title: 'Classic Mojito', price: '8k Rwf', image: cokImg, description: 'Fresh mint, lime, sugar, and premium rum' }, e)} className="bg-red-600 text-white px-3 py-1 rounded-md text-sm font-bold hover:bg-red-700 transition">Order Now</button>
+              </div>
             </div>
 
             {/* Berry Martini */}
-            <div className="bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200">
-              <div className="flex items-center space-x-4">
+            <div onClick={() => navigate('/product', { state: { id: 'c2', title: 'Berry Martini', price: '10k Rwf', image: cok1Img, description: 'Mixed berries, vodka, and a hint of citrus' } })} className="bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200 cursor-pointer flex">
+              <div className="flex items-center space-x-4 flex-1">
                 <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 shadow-md border-2 border-gray-100">
                   <img src={cok1Img} alt="Berry Martini" className="w-full h-full object-cover" />
                 </div>
@@ -88,11 +114,14 @@ const CocktailPage = () => {
                 </div>
                 <div className="text-lg font-bold text-orange-600">10k Rwf</div>
               </div>
+              <div className="ml-4 flex items-center">
+                <button onClick={(e) => handleOrderNow({ id: 'c2', title: 'Berry Martini', price: '10k Rwf', image: cok1Img, description: 'Mixed berries, vodka, and a hint of citrus' }, e)} className="bg-red-600 text-white px-3 py-1 rounded-md text-sm font-bold hover:bg-red-700 transition">Order Now</button>
+              </div>
             </div>
 
             {/* Cosmopolitan */}
-            <div className="bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200">
-              <div className="flex items-center space-x-4">
+            <div onClick={() => navigate('/product', { state: { id: 'c3', title: 'Cosmopolitan', price: '9k Rwf', image: cokImg, description: 'Vodka, cranberry, lime, and triple sec' } })} className="bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200 cursor-pointer flex">
+              <div className="flex items-center space-x-4 flex-1">
                 <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 shadow-md border-2 border-gray-100">
                   <img src={cokImg} alt="Cosmopolitan" className="w-full h-full object-cover" />
                 </div>
@@ -102,11 +131,14 @@ const CocktailPage = () => {
                 </div>
                 <div className="text-lg font-bold text-orange-600">9k Rwf</div>
               </div>
+              <div className="ml-4 flex items-center">
+                <button onClick={(e) => handleOrderNow({ id: 'c3', title: 'Cosmopolitan', price: '9k Rwf', image: cokImg, description: 'Vodka, cranberry, lime, and triple sec' }, e)} className="bg-red-600 text-white px-3 py-1 rounded-md text-sm font-bold hover:bg-red-700 transition">Order Now</button>
+              </div>
             </div>
 
             {/* Old Fashioned */}
-            <div className="bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200">
-              <div className="flex items-center space-x-4">
+            <div onClick={() => navigate('/product', { state: { id: 'c4', title: 'Old Fashioned', price: '11k Rwf', image: cok1Img, description: 'Bourbon, sugar, bitters, and orange peel' } })} className="bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200 cursor-pointer flex">
+              <div className="flex items-center space-x-4 flex-1">
                 <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 shadow-md border-2 border-gray-100">
                   <img src={cok1Img} alt="Old Fashioned" className="w-full h-full object-cover" />
                 </div>
@@ -116,11 +148,14 @@ const CocktailPage = () => {
                 </div>
                 <div className="text-lg font-bold text-orange-600">11k Rwf</div>
               </div>
+              <div className="ml-4 flex items-center">
+                <button onClick={(e) => handleOrderNow({ id: 'c4', title: 'Old Fashioned', price: '11k Rwf', image: cok1Img, description: 'Bourbon, sugar, bitters, and orange peel' }, e)} className="bg-red-600 text-white px-3 py-1 rounded-md text-sm font-bold hover:bg-red-700 transition">Order Now</button>
+              </div>
             </div>
 
             {/* Margarita */}
-            <div className="bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200">
-              <div className="flex items-center space-x-4">
+            <div onClick={() => navigate('/product', { state: { id: 'c5', title: 'Classic Margarita', price: '9k Rwf', image: cokImg, description: 'Tequila, lime juice, and triple sec' } })} className="bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200 cursor-pointer flex">
+              <div className="flex items-center space-x-4 flex-1">
                 <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 shadow-md border-2 border-gray-100">
                   <img src={cokImg} alt="Margarita" className="w-full h-full object-cover" />
                 </div>
@@ -130,11 +165,14 @@ const CocktailPage = () => {
                 </div>
                 <div className="text-lg font-bold text-orange-600">9k Rwf</div>
               </div>
+              <div className="ml-4 flex items-center">
+                <button onClick={(e) => handleOrderNow({ id: 'c5', title: 'Classic Margarita', price: '9k Rwf', image: cokImg, description: 'Tequila, lime juice, and triple sec' }, e)} className="bg-red-600 text-white px-3 py-1 rounded-md text-sm font-bold hover:bg-red-700 transition">Order Now</button>
+              </div>
             </div>
 
             {/* Espresso Martini */}
-            <div className="bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200">
-              <div className="flex items-center space-x-4">
+            <div onClick={() => navigate('/product', { state: { id: 'c6', title: 'Espresso Martini', price: '12k Rwf', image: cok1Img, description: 'Vodka, coffee liqueur, and fresh espresso' } })} className="bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200 cursor-pointer flex">
+              <div className="flex items-center space-x-4 flex-1">
                 <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 shadow-md border-2 border-gray-100">
                   <img src={cok1Img} alt="Espresso Martini" className="w-full h-full object-cover" />
                 </div>
@@ -144,11 +182,14 @@ const CocktailPage = () => {
                 </div>
                 <div className="text-lg font-bold text-orange-600">12k Rwf</div>
               </div>
+              <div className="ml-4 flex items-center">
+                <button onClick={(e) => handleOrderNow({ id: 'c6', title: 'Espresso Martini', price: '12k Rwf', image: cok1Img, description: 'Vodka, coffee liqueur, and fresh espresso' }, e)} className="bg-red-600 text-white px-3 py-1 rounded-md text-sm font-bold hover:bg-red-700 transition">Order Now</button>
+              </div>
             </div>
 
             {/* Negroni */}
-            <div className="bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200">
-              <div className="flex items-center space-x-4">
+            <div onClick={() => navigate('/product', { state: { id: 'c7', title: 'Negroni', price: '10k Rwf', image: cokImg, description: 'Gin, Campari, and sweet vermouth' } })} className="bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200 cursor-pointer flex">
+              <div className="flex items-center space-x-4 flex-1">
                 <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 shadow-md border-2 border-gray-100">
                   <img src={cokImg} alt="Negroni" className="w-full h-full object-cover" />
                 </div>
@@ -158,11 +199,14 @@ const CocktailPage = () => {
                 </div>
                 <div className="text-lg font-bold text-orange-600">10k Rwf</div>
               </div>
+              <div className="ml-4 flex items-center">
+                <button onClick={(e) => handleOrderNow({ id: 'c7', title: 'Negroni', price: '10k Rwf', image: cokImg, description: 'Gin, Campari, and sweet vermouth' }, e)} className="bg-red-600 text-white px-3 py-1 rounded-md text-sm font-bold hover:bg-red-700 transition">Order Now</button>
+              </div>
             </div>
 
             {/* Aperol Spritz */}
-            <div className="bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200">
-              <div className="flex items-center space-x-4">
+            <div onClick={() => navigate('/product', { state: { id: 'c8', title: 'Aperol Spritz', price: '8k Rwf', image: cok1Img, description: 'Aperol, prosecco, and soda water' } })} className="bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200 cursor-pointer flex">
+              <div className="flex items-center space-x-4 flex-1">
                 <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 shadow-md border-2 border-gray-100">
                   <img src={cok1Img} alt="Aperol Spritz" className="w-full h-full object-cover" />
                 </div>
@@ -172,11 +216,14 @@ const CocktailPage = () => {
                 </div>
                 <div className="text-lg font-bold text-orange-600">8k Rwf</div>
               </div>
+              <div className="ml-4 flex items-center">
+                <button onClick={(e) => handleOrderNow({ id: 'c8', title: 'Aperol Spritz', price: '8k Rwf', image: cok1Img, description: 'Aperol, prosecco, and soda water' }, e)} className="bg-red-600 text-white px-3 py-1 rounded-md text-sm font-bold hover:bg-red-700 transition">Order Now</button>
+              </div>
             </div>
 
             {/* Whiskey Sour */}
-            <div className="bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200">
-              <div className="flex items-center space-x-4">
+            <div onClick={() => navigate('/product', { state: { id: 'c9', title: 'Whiskey Sour', price: '9k Rwf', image: cokImg, description: 'Bourbon, lemon juice, and simple syrup' } })} className="bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200 cursor-pointer flex">
+              <div className="flex items-center space-x-4 flex-1">
                 <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 shadow-md border-2 border-gray-100">
                   <img src={cokImg} alt="Whiskey Sour" className="w-full h-full object-cover" />
                 </div>
@@ -185,6 +232,9 @@ const CocktailPage = () => {
                   <p className="text-sm text-gray-600 mt-1">Bourbon, lemon juice, and simple syrup</p>
                 </div>
                 <div className="text-lg font-bold text-orange-600">9k Rwf</div>
+              </div>
+              <div className="ml-4 flex items-center">
+                <button onClick={(e) => handleOrderNow({ id: 'c9', title: 'Whiskey Sour', price: '9k Rwf', image: cokImg, description: 'Bourbon, lemon juice, and simple syrup' }, e)} className="bg-red-600 text-white px-3 py-1 rounded-md text-sm font-bold hover:bg-red-700 transition">Order Now</button>
               </div>
             </div>
           </div>
